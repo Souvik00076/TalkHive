@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "810846339300",
+    "firebase_url": "https://talkhive-31f3f-default-rtdb.firebaseio.com",
+    "project_id": "talkhive-31f3f",
+    "storage_bucket": "talkhive-31f3f.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:810846339300:android:051f65e71e48875485ecf1",
+        "android_client_info": {
+          "package_name": "com.example.talkhive"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "810846339300-h9fcojo6p2djp0rap3q6nfvnakkai8ta.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.talkhive",
+            "certificate_hash": "cc58c832b6bdcd3f3eb1d6f1e5ab53d440293945"
+          }
+        },
+        {
+          "client_id": "810846339300-2sqo0r6g3ec741gfott28cloisbd0gq3.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC7bcFOW-eXvfqt1V3hNt41m5lxkwrbjHk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "810846339300-2sqo0r6g3ec741gfott28cloisbd0gq3.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

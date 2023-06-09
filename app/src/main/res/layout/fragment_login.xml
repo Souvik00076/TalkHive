@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+
+    tools:context=".fragments.LoginFragment">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_margin="@dimen/layout_margin"
+        android:orientation="vertical"
+        android:padding="@dimen/layout_padding">
+
+        <EditText
+            android:id="@+id/email_text"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/widget_recommended_height"
+            android:layout_marginStart="@dimen/widgets_margin_start"
+            android:layout_marginTop="@dimen/widgets_margin_top"
+            android:layout_marginEnd="@dimen/widgets_margin_end"
+            android:background="@android:color/transparent"
+            android:hint="@string/emailhint"
+            android:inputType="textEmailAddress"
+            android:padding="@dimen/widgets_padding"
+            android:textSize="@dimen/widgets_text_size" />
+
+        <EditText
+            android:id="@+id/password_text"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/widget_recommended_height"
+            android:layout_marginStart="@dimen/widgets_margin_start"
+            android:layout_marginTop="@dimen/widgets_margin_top"
+            android:layout_marginEnd="@dimen/widgets_margin_end"
+            android:background="@android:color/transparent"
+            android:hint="@string/password_hint"
+            android:inputType="textPassword"
+            android:padding="@dimen/widgets_padding"
+            android:textSize="@dimen/widgets_text_size" />
+
+        <Button
+            android:id="@+id/login_button"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/widget_recommended_height"
+            android:layout_gravity="center"
+            android:layout_marginTop="@dimen/widgets_margin_top"
+            android:text="@string/login_button"
+            android:textSize="@dimen/widgets_text_size" />
+
+        <TextView
+            android:id="@+id/dont_hv_acc_sign"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="@dimen/widgets_margin_top"
+            android:text="@string/have_login_account_text"
+            android:textSize="@dimen/widgets_text_size" />
+
+    </LinearLayout>
+
+
+</FrameLayout>
