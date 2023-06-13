@@ -3,40 +3,57 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/background"
     tools:context=".fragments.SignupFragment">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/widgets_margin_top"
+        android:gravity="center"
+        android:text="@string/talk_hive_logo"
+        android:textColor="@color/white"
+        android:textSize="@dimen/logo_size"
+        android:textStyle="italic|bold" />
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:layout_gravity="center"
-        android:layout_margin="@dimen/layout_margin"
+        android:gravity="center"
         android:orientation="vertical"
         android:padding="@dimen/layout_padding">
 
         <EditText
+
             android:id="@+id/email_text"
             android:layout_width="match_parent"
             android:layout_height="@dimen/widget_recommended_height"
             android:layout_marginStart="@dimen/widgets_margin_start"
             android:layout_marginTop="@dimen/widgets_margin_top"
             android:layout_marginEnd="@dimen/widgets_margin_end"
-            android:background="@android:color/transparent"
+            android:background="@drawable/widgets_background"
+            android:gravity="center"
             android:hint="@string/emailhint"
             android:inputType="textEmailAddress"
             android:padding="@dimen/widgets_padding"
+            android:textColorHint="@color/white"
             android:textSize="@dimen/widgets_text_size" />
 
         <EditText
+
             android:id="@+id/password_text"
             android:layout_width="match_parent"
             android:layout_height="@dimen/widget_recommended_height"
             android:layout_marginStart="@dimen/widgets_margin_start"
             android:layout_marginTop="@dimen/widgets_margin_top"
             android:layout_marginEnd="@dimen/widgets_margin_end"
-            android:background="@android:color/transparent"
+            android:background="@drawable/widgets_background"
+            android:gravity="center"
             android:hint="@string/password_hint"
             android:inputType="textPassword"
             android:padding="@dimen/widgets_padding"
+            android:textColorHint="@color/white"
             android:textSize="@dimen/widgets_text_size" />
 
         <EditText
@@ -46,22 +63,31 @@
             android:layout_marginStart="@dimen/widgets_margin_start"
             android:layout_marginTop="@dimen/widgets_margin_top"
             android:layout_marginEnd="@dimen/widgets_margin_end"
-            android:background="@android:color/transparent"
+            android:background="@drawable/widgets_background"
+            android:gravity="center"
             android:hint="@string/password_hint"
             android:inputType="textPassword"
             android:padding="@dimen/widgets_padding"
+            android:textColorHint="@color/white"
             android:textSize="@dimen/widgets_text_size" />
 
         <Button
             android:id="@+id/signup_button"
+
             android:layout_width="wrap_content"
             android:layout_height="@dimen/widget_recommended_height"
             android:layout_gravity="center"
             android:layout_marginTop="@dimen/widgets_margin_top"
+            android:background="@drawable/btn_reg_background"
             android:text="@string/signup_button_name"
             android:textSize="@dimen/widgets_text_size" />
 
     </LinearLayout>
 
-
+    <ProgressBar
+        android:id="@+id/progress_bar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:visibility="gone" />
 </FrameLayout>

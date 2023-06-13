@@ -1,11 +1,13 @@
 <resources>
     <string name="app_name">TalkHive</string>
     <string name="signup_button_name">Sign Up</string>
-    <string name="have_login_account_text">dont have an account?SignIn</string>
+    <string name="have_login_account_text">do not have an account?Sign Up</string>
     <string name="emailhint">johndoe@gmail.com</string>
     <string name="password_hint">password</string>
     <string name="signin_button_name">Sign In</string>
+    <string name="login_button">Login</string>
+    <string name="talk_hive_logo">Talk Hive</string>
+    <string name="verification_hint">00000</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="login_button">Login</string>
 </resources>

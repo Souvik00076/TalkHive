@@ -20,7 +20,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void addOrReplace(Fragment fragment) {
-        manager.beginTransaction().replace(R.id.container, fragment).commit();
+        manager.beginTransaction().add(R.id.container, fragment).commit();
     }
 
     private void __init__() {

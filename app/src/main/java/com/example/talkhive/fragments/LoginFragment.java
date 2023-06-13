@@ -1,6 +1,9 @@
 package com.example.talkhive.fragments;
 
 
+import static com.example.talkhive.utilities.VerificationUtilities.replaceInMain;
+
+import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -8,21 +11,34 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import com.example.talkhive.MainActivity;
 import com.example.talkhive.R;
+import com.example.talkhive.utilities.VerificationUtilities;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
 
 public class LoginFragment extends Fragment {
     final static String FILE = "LOGIN_FRAGMENT";
     private EditText emailEt, passwordEt;
     private TextView dontHaveAccount;
     private Button loginButton;
+    private FirebaseAuth auth;
+    private static final String INVALID_EMAIL_PASS_MSG = "INVALID EMAIL/PASSWORD";
+    private ProgressBar progressBar;
 
-    public LoginFragment() {
+    @Override
+    public void onAttach(@NonNull Context context) {
+        super.onAttach(context);
     }
 
     @Nullable
@@ -35,17 +51,43 @@ public class LoginFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 final String email = emailEt.getText().toString();
-                final String passwrod = passwordEt.getText().toString();
+                final String password = passwordEt.getText().toString();
                 Log.i(FILE, "Called Button click()");
+                loginUser(email, password);
+            }
+        });
+        dontHaveAccount.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                replaceInMain(new SignupFragment(), getContext());
             }
         });
         return root;
     }
+
+    private void loginUser(final String email, final String password) {
+        progressBar.setVisibility(View.VISIBLE);
+        auth.signInWithEmailAndPassword(email,password).
+                addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        if (task.isSuccessful()) {
+                            replaceInMain(new MainPage(), getContext());
+                        } else {
+                            progressBar.setVisibility(View.GONE);
+                            Toast.makeText(getContext(), INVALID_EMAIL_PASS_MSG, Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
+    }
+
 
     private void __init__(View root) {
         emailEt = root.findViewById(R.id.email_text);
         passwordEt = root.findViewById(R.id.password_text);
         loginButton = root.findViewById(R.id.login_button);
         dontHaveAccount = root.findViewById(R.id.dont_hv_acc_sign);
+        auth = FirebaseAuth.getInstance();
+        progressBar = root.findViewById(R.id.progress_bar);
     }
 }

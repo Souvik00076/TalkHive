@@ -2,10 +2,15 @@
 <resources>
     <dimen name="widgets_margin_start">16dp</dimen>
     <dimen name="widgets_margin_end">16dp</dimen>
-    <dimen name="widgets_margin_top">10dp</dimen>
+    <dimen name="widgets_margin_top">16dp</dimen>
     <dimen name="widgets_text_size">17sp</dimen>
     <dimen name="widget_recommended_height">48dp</dimen>
     <dimen name="widgets_padding">10dp</dimen>
     <dimen name="layout_padding">10dp</dimen>
-    <dimen name="layout_margin">10dp</dimen>
+    <dimen name="layout_margin">16dp</dimen>
+    <dimen name="radius">500dp</dimen>
+    <dimen name="margin_bottom">200dp</dimen>
+    <dimen name="widgets_radius">25dp</dimen>
+    <dimen name="logo_size">50sp</dimen>
+    <dimen name="margin_bottom_logo">100dp</dimen>
 </resources>

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/background"
+    tools:context=".fragments.VerificationFragment">
+
+    <EditText
+        android:id="@+id/verfication_text"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/widget_recommended_height"
+        android:layout_gravity="center"
+        android:layout_marginStart="@dimen/widgets_margin_start"
+        android:layout_marginEnd="@dimen/widgets_margin_end"
+        android:background="@drawable/widgets_background"
+        android:hint="@string/verification_hint"
+        android:textAlignment="center"
+        android:textColorHint="@color/white"
+        android:textSize="@dimen/widgets_text_size" />
+
+</FrameLayout>
