@@ -101,7 +101,7 @@ public class SignupFragment extends Fragment {
             public void onComplete(@NonNull Task<Void> task) {
                 if (task.isComplete()) {
                     enableDisableProgressBar(false);
-                    replaceInMain(new MainPage(), getContext());
+                    replaceInMain(new LoginFragment(), getContext());
                 } else {
                     enableDisableProgressBar(false);
                     deleteUser(user);

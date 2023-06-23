@@ -26,9 +26,12 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 public class LoginFragment extends Fragment {
-    final static String FILE = "LOGIN_FRAGMENT";
+    private static final String EMAL_VERIFICATION_FAILED_MSG="Email verfication msg could not be sent";
+    private final static String EMAIL_NOT_VERIFIED_MSG = "Email not verified!! Verify your email";
+    private final static String FILE = "LOGIN_FRAGMENT";
     private EditText emailEt, passwordEt;
     private TextView dontHaveAccount;
     private Button loginButton;
@@ -67,12 +70,25 @@ public class LoginFragment extends Fragment {
 
     private void loginUser(final String email, final String password) {
         progressBar.setVisibility(View.VISIBLE);
-        auth.signInWithEmailAndPassword(email,password).
+        auth.signInWithEmailAndPassword(email, password).
                 addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
-                            replaceInMain(new MainPage(), getContext());
+                            FirebaseUser user = auth.getCurrentUser();
+                            if (user != null && user.isEmailVerified()) {
+                                replaceInMain(new MainPage(), getContext());
+                            }
+                            else if(user!=null){
+                                Toast.makeText(getContext(), EMAIL_NOT_VERIFIED_MSG, Toast.LENGTH_SHORT).show();
+                                user.sendEmailVerification().addOnCompleteListener(new OnCompleteListener<Void>() {
+                                    @Override
+                                    public void onComplete(@NonNull Task<Void> task) {
+                                        if(!task.isComplete()) Toast.makeText(getContext(),EMAL_VERIFICATION_FAILED_MSG, Toast.LENGTH_SHORT).show();
+                                    }
+                                });
+                            }
+
                         } else {
                             progressBar.setVisibility(View.GONE);
                             Toast.makeText(getContext(), INVALID_EMAIL_PASS_MSG, Toast.LENGTH_SHORT).show();
