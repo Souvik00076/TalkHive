@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="widget_edit_text_style">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">@dimen/widget_recommended_height</item>
+        <item name="android:layout_marginStart">@dimen/widgets_margin_start</item>
+        <item name="android:layout_marginTop">@dimen/widgets_margin_top</item>
+        <item name="android:layout_marginEnd">@dimen/widgets_margin_end</item>
+        <item name="android:background">@drawable/widgets_background</item>
+        <item name="android:gravity">center</item>
+        <item name="android:padding">@dimen/widgets_padding</item>
+        <item name="android:textColorHint">@color/white</item>
+        <item name="android:textSize">@dimen/widgets_text_size</item>
+        <item name="android:textColor">@color/white</item>
+    </style>
+
+    <style name="widget_button_style">
+        <item name="android:background">@drawable/btn_reg_background</item>
+        <item name="android:layout_height">@dimen/widget_recommended_height</item>
+        <item name="android:layout_gravity">center</item>
+        <item name="android:layout_marginTop">@dimen/widgets_margin_top</item>
+        <item name="android:textSize">@dimen/widgets_text_size</item>
+    </style>
+
+    <style name="oppsite_chat_view">
+        <item name="android:background">@color/white</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginEnd">@dimen/chat_margin</item>
+        <item name="android:layout_alignParentLeft">true</item>
+        <item name="android:padding">@dimen/widgets_padding</item>
+    </style>
+
+    <style name="user_chat_view">
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:background">@color/user_chat_color</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_marginStart">@dimen/chat_margin</item>
+        <item name="android:layout_alignParentRight">true</item>
+        <item name="android:padding">@dimen/widgets_padding</item>
+    </style>
+
+</resources>

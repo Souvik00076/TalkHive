@@ -8,4 +8,6 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="trans">#1EFFFFFF</color>
+    <color name="user_chat_color">#74A2D863</color>
+
 </resources>

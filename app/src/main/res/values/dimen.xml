@@ -13,4 +13,5 @@
     <dimen name="widgets_radius">25dp</dimen>
     <dimen name="logo_size">50sp</dimen>
     <dimen name="margin_bottom_logo">100dp</dimen>
+    <dimen name="chat_margin">70dp</dimen>
 </resources>

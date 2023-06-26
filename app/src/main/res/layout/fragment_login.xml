@@ -30,45 +30,26 @@
         <EditText
 
             android:id="@+id/email_text"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/widget_recommended_height"
-            android:layout_marginStart="@dimen/widgets_margin_start"
-            android:layout_marginTop="@dimen/widgets_margin_top"
-            android:layout_marginEnd="@dimen/widgets_margin_end"
-            android:background="@drawable/widgets_background"
-            android:gravity="center"
+            style="@style/widget_edit_text_style"
+
+
             android:hint="@string/emailhint"
-            android:inputType="textEmailAddress"
-            android:padding="@dimen/widgets_padding"
-            android:textColorHint="@color/white"
-            android:textSize="@dimen/widgets_text_size" />
+            android:inputType="textEmailAddress" />
 
         <EditText
 
             android:id="@+id/password_text"
-            android:layout_width="match_parent"
+            style="@style/widget_edit_text_style"
 
-            android:layout_height="@dimen/widget_recommended_height"
-            android:layout_marginStart="@dimen/widgets_margin_start"
-            android:layout_marginTop="@dimen/widgets_margin_top"
-            android:layout_marginEnd="@dimen/widgets_margin_end"
-            android:background="@drawable/widgets_background"
-            android:gravity="center"
+
             android:hint="@string/password_hint"
-            android:inputType="textPassword"
-            android:padding="@dimen/widgets_padding"
-            android:textColorHint="@color/white"
-            android:textSize="@dimen/widgets_text_size" />
+            android:inputType="textPassword" />
 
         <Button
             android:id="@+id/login_button"
+            style="@style/widget_button_style"
             android:layout_width="wrap_content"
-            android:layout_height="@dimen/widget_recommended_height"
-            android:layout_gravity="center"
-            android:layout_marginTop="@dimen/widgets_margin_top"
-            android:background="@drawable/btn_reg_background"
-            android:text="@string/login_button"
-            android:textSize="@dimen/widgets_text_size" />
+            android:text="@string/login_button" />
 
         <TextView
             android:id="@+id/dont_hv_acc_sign"
@@ -87,5 +68,5 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:visibility="gone"/>
+        android:visibility="gone" />
 </FrameLayout>
