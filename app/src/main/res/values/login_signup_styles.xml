@@ -33,9 +33,11 @@
         <item name="android:padding">@dimen/widgets_padding</item>
         <item name="layout_constraintWidth_percent">0.75</item>
         <item name="layout_constraintStart_toStartOf">parent</item>
+        <item name="android:textAlignment">textStart</item>
     </style>
 
     <style name="user_chat_view">
+        <item name="android:textAlignment">textEnd</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:background">@drawable/user_chat_background</item>
         <item name="android:layout_width">0dp</item>
@@ -43,6 +45,7 @@
         <item name="android:padding">@dimen/widgets_padding</item>
         <item name="layout_constraintEnd_toEndOf">parent</item>
         <item name="layout_constraintWidth_percent">0.75</item>
+
     </style>
 
     <style name="send_message_time">
@@ -51,11 +54,10 @@
         <item name="android:layout_width">wrap_content</item>
         <item name="layout_constraintEnd_toEndOf">parent</item>
         <item name="layout_constraintTop_toBottomOf">@+id/reciever_message</item>
-        <item name="android:textAlignment">textEnd</item>
+
     </style>
 
     <style name="recieved_message_time">
-        <item name="android:textAlignment">textStart</item>
         <item name="android:layout_height">wrap_content</item>
 
         <item name="android:layout_width">wrap_content</item>
