@@ -8,6 +8,6 @@
     <string name="login_button">Login</string>
     <string name="talk_hive_logo">Talk Hive</string>
     <string name="verification_hint">00000</string>
-    <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="type_msg_hint">Hello!!!! How are you doin?</string>
 </resources>

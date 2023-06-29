@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="send_button_style">
+        <item name="android:layout_height">@dimen/_48dp</item>
+        <item name="android:layout_width">@dimen/_48dp</item>
+        <item name="android:layout_marginEnd">@dimen/_16dp</item>
+        <item name="android:layout_marginRight">@dimen/_16dp</item>
+        <item name="android:layout_marginBottom">@dimen/_16dp</item>
+        <item name="android:background">@drawable/chat_input_background</item>
+        <item name="layout_constraintBottom_toBottomOf">parent</item>
+        <item name="android:backgroundTint">@color/white</item>
+        <item name="layout_constraintEnd_toEndOf">parent</item>
+    </style>
+
+    <style name="send_button_image_style">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:padding">@dimen/_8dp</item>
+        <item name="android:src">@drawable/round_send_48</item>
+        <item name="layout_goneMarginStart">@dimen/_4dp</item>
+        <item name="layout_goneMarginLeft">@dimen/_4dp</item>
+    </style>
+
+    <style name="msg_box_style">
+        <item name="android:backgroundTint">@color/white</item>
+        <item name="android:layout_height">@dimen/_48dp</item>
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_marginStart">@dimen/_16dp</item>
+        <item name="android:layout_marginEnd">@dimen/_8dp</item>
+        <item name="android:layout_marginBottom">@dimen/_16dp</item>
+        <item name="android:hint">@string/type_msg_hint</item>
+        <item name="hintTextColor">@color/black</item>
+        <item name="android:background">@drawable/chat_input_background</item>
+        <item name="backgroundColor">@color/white</item>
+        <item name="layout_constraintBottom_toBottomOf">parent</item>
+        <item name="layout_constraintEnd_toStartOf">@+id/button_send</item>
+        <item name="layout_constraintStart_toStartOf">parent</item>
+        <item name="android:padding">@dimen/_8dp</item>
+    </style>
+
+    <style name="chat_content_view_style">
+        <item name="android:background">@drawable/chat_content</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">0dp</item>
+        <item name="layout_constraintBottom_toTopOf">@+id/button_send</item>
+        <item name="layout_constraintTop_toTopOf">parent</item>
+        <item name="android:layout_marginBottom">@dimen/_16dp</item>
+    </style>
+
+    <style name="chat_back_button_style">
+        <item name="android:layout_width">@dimen/_48dp</item>
+        <item name="android:layout_height">@dimen/_48dp</item>
+        <item name="android:layout_marginTop">@dimen/_16dp</item>
+        <item name="android:layout_marginStart">@dimen/_16dp</item>
+        <item name="android:layout_marginLeft">@dimen/_16dp</item>
+        <item name="layout_constraintStart_toStartOf">parent</item>
+        <item name="layout_constraintTop_toTopOf">parent</item>
+        <item name="android:background">@drawable/icon_back_48</item>
+    </style>
+
+    <style name="chat_dp_style">
+        <item name="android:layout_height">@dimen/_60dp</item>
+        <item name="android:layout_width">@dimen/_60dp</item>
+        <item name="android:background">@drawable/dp_background</item>
+        <item name="layout_constraintStart_toEndOf">@+id/button_back</item>
+        <item name="android:layout_marginTop">@dimen/_16dp</item>
+        <item name="android:layout_marginStart">@dimen/_12dp</item>
+        <item name="android:layout_marginLeft">@dimen/_12dp</item>
+        <item name="layout_constraintTop_toTopOf">parent</item>
+    </style>
+
+    <style name="chat_box_name_style">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">@dimen/_60dp</item>
+        <item name="android:layout_marginTop">@dimen/_16dp</item>
+        <item name="layout_constraintTop_toTopOf">parent</item>
+        <item name="layout_constraintStart_toEndOf">@+id/chat_dp</item>
+        <item name="android:background">@drawable/chat_input_background</item>
+        <item name="android:backgroundTint">@color/dark_blue</item>
+        <item name="android:padding">@dimen/_12dp</item>
+        <item name="android:textSize">@dimen/_20sp</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:gravity">center</item>
+        <item name="android:layout_marginStart">@dimen/_12dp</item>
+    </style>
+
+    <style name="chat_recycler_view_style">
+        <item name="android:layout_height">0dp</item>
+        <item name="android:layout_width">match_parent</item>
+
+        <item name="layout_constraintBottom_toBottomOf">@+id/app_view</item>
+        <item name="layout_constraintTop_toBottomOf">@+id/chat_dp</item>
+        <item name="android:padding">@dimen/_20dp</item>
+        <item name="android:overScrollMode">never</item>
+    </style>
+    <style name="chat_wait_progress_style">
+        <item name="layout_constraintBottom_toBottomOf">@id/app_view</item>
+        <item name="layout_constraintTop_toTopOf">@id/app_view</item>
+        <item name="layout_constraintEnd_toEndOf">@id/app_view</item>
+        <item name="layout_constraintStart_toStartOf">@id/app_view</item>
+        <item name="android:layout_width">@dimen/_48dp</item>
+        <item name="android:layout_height">@dimen/_48dp</item>
+    </style>
+</resources>

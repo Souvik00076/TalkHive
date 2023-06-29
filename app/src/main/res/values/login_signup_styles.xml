@@ -8,6 +8,7 @@
         <item name="android:layout_marginTop">@dimen/widgets_margin_top</item>
         <item name="android:layout_marginEnd">@dimen/widgets_margin_end</item>
         <item name="android:background">@drawable/widgets_background</item>
+
         <item name="android:gravity">center</item>
         <item name="android:padding">@dimen/widgets_padding</item>
         <item name="android:textColorHint">@color/white</item>
@@ -24,21 +25,41 @@
     </style>
 
     <style name="oppsite_chat_view">
-        <item name="android:background">@color/white</item>
-        <item name="android:layout_width">wrap_content</item>
+        <item name="android:background">@drawable/opposite_user_chat_background</item>
+        <item name="android:layout_width">0dp</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_marginEnd">@dimen/chat_margin</item>
         <item name="android:layout_alignParentLeft">true</item>
         <item name="android:padding">@dimen/widgets_padding</item>
+        <item name="layout_constraintWidth_percent">0.75</item>
+        <item name="layout_constraintStart_toStartOf">parent</item>
     </style>
 
     <style name="user_chat_view">
         <item name="android:layout_height">wrap_content</item>
-        <item name="android:background">@color/user_chat_color</item>
-        <item name="android:layout_width">wrap_content</item>
+        <item name="android:background">@drawable/user_chat_background</item>
+        <item name="android:layout_width">0dp</item>
         <item name="android:layout_marginStart">@dimen/chat_margin</item>
-        <item name="android:layout_alignParentRight">true</item>
         <item name="android:padding">@dimen/widgets_padding</item>
+        <item name="layout_constraintEnd_toEndOf">parent</item>
+        <item name="layout_constraintWidth_percent">0.75</item>
     </style>
 
+    <style name="send_message_time">
+        <item name="android:layout_height">wrap_content</item>
+
+        <item name="android:layout_width">wrap_content</item>
+        <item name="layout_constraintEnd_toEndOf">parent</item>
+        <item name="layout_constraintTop_toBottomOf">@+id/reciever_message</item>
+        <item name="android:textAlignment">textEnd</item>
+    </style>
+
+    <style name="recieved_message_time">
+        <item name="android:textAlignment">textStart</item>
+        <item name="android:layout_height">wrap_content</item>
+
+        <item name="android:layout_width">wrap_content</item>
+        <item name="layout_constraintStart_toStartOf">parent</item>
+        <item name="layout_constraintTop_toBottomOf">@+id/reciever_message</item>
+    </style>
 </resources>

@@ -14,4 +14,14 @@
     <dimen name="logo_size">50sp</dimen>
     <dimen name="margin_bottom_logo">100dp</dimen>
     <dimen name="chat_margin">70dp</dimen>
+    <dimen name="_48dp">48dp</dimen>
+    <dimen name="_16dp">16dp</dimen>
+    <dimen name="_12dp">12dp</dimen>
+    <dimen name="_8dp">8dp</dimen>
+    <dimen name="_4dp">4dp</dimen>
+    <dimen name="_60dp">60dp</dimen>
+    <dimen name="_100dp">100dp</dimen>
+    <dimen name="_20sp">17sp</dimen>
+    <dimen name="_20dp">20dp</dimen>
+    <dimen name="_25dp">25dp</dimen>
 </resources>
