@@ -11,6 +11,6 @@
 3)This project is following the best practice of android development.<br>
 
 
-#Day 3
+# Day 3
 1)Added to more fragments for holding the chats and list of users you will be adding to your app<br>
 2)Added a new activity which uses TabLayout that will hold the chatFragment as well as userFragment
