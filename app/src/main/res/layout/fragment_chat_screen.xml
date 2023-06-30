@@ -15,7 +15,10 @@
     <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/chat_dp"
         style="@style/chat_dp_style"
-        tools:ignore="MissingConstraints" />
+        tools:ignore="MissingConstraints"
+        android:layout_marginTop="@dimen/_16dp"
+        app:layout_constraintStart_toEndOf="@id/button_back"
+        />
 
     <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/button_back"
@@ -26,6 +29,7 @@
         android:id="@+id/chat_name"
         style="@style/chat_box_name_style"
         android:text="souvik00076@gmail.com"
+        android:layout_marginTop="@dimen/_16dp"
         tools:ignore="MissingConstraints" />
 
     <androidx.recyclerview.widget.RecyclerView

@@ -1,5 +1,6 @@
 package com.example.talkhive.utilities;
 
+import android.app.Activity;
 import android.content.Context;
 
 import androidx.fragment.app.Fragment;

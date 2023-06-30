@@ -4,6 +4,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 
 import com.example.talkhive.fragments.LoginFragment;
@@ -21,6 +23,12 @@ public class MainActivity extends AppCompatActivity {
 
     public void addOrReplace(Fragment fragment) {
         manager.beginTransaction().add(R.id.container, fragment).commit();
+    }
+
+    public void nextActivity() {
+        Intent intent = new Intent(this, ChatActivity.class);
+        startActivity(intent);
+        finish();
     }
 
     private void __init__() {

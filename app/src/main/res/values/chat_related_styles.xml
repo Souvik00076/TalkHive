@@ -63,8 +63,7 @@
         <item name="android:layout_height">@dimen/_60dp</item>
         <item name="android:layout_width">@dimen/_60dp</item>
         <item name="android:background">@drawable/dp_background</item>
-        <item name="layout_constraintStart_toEndOf">@+id/button_back</item>
-        <item name="android:layout_marginTop">@dimen/_16dp</item>
+
         <item name="android:layout_marginStart">@dimen/_12dp</item>
         <item name="android:layout_marginLeft">@dimen/_12dp</item>
         <item name="layout_constraintTop_toTopOf">parent</item>
@@ -73,7 +72,6 @@
     <style name="chat_box_name_style">
         <item name="android:layout_width">0dp</item>
         <item name="android:layout_height">@dimen/_60dp</item>
-        <item name="android:layout_marginTop">@dimen/_16dp</item>
         <item name="layout_constraintTop_toTopOf">parent</item>
         <item name="layout_constraintStart_toEndOf">@+id/chat_dp</item>
         <item name="android:background">@drawable/chat_input_background</item>
