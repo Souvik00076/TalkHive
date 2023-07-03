@@ -10,4 +10,7 @@
     <string name="verification_hint">00000</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="type_msg_hint">Hello!!!! How are you doin?</string>
+    <string name="name_hint">john\n</string>
+    <string name="signin">Add</string>
+    <string name="cancel">Cancel\n</string>
 </resources>
