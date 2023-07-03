@@ -42,6 +42,6 @@ public class AddUserDialog extends DialogFragment {
                         AddUserDialog.this.getDialog().cancel();
                     }
                 });
-        return builder.create();
+        return builder.create();//Now git profile change
     }
 }
