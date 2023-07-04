@@ -63,7 +63,6 @@
         <item name="android:layout_height">@dimen/_60dp</item>
         <item name="android:layout_width">@dimen/_60dp</item>
         <item name="android:background">@drawable/dp_background</item>
-
         <item name="android:layout_marginStart">@dimen/_12dp</item>
         <item name="android:layout_marginLeft">@dimen/_12dp</item>
         <item name="layout_constraintTop_toTopOf">parent</item>

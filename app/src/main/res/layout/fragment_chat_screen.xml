@@ -17,6 +17,7 @@
         style="@style/chat_dp_style"
         tools:ignore="MissingConstraints"
         android:layout_marginTop="@dimen/_16dp"
+
         app:layout_constraintStart_toEndOf="@id/button_back"
         />
 

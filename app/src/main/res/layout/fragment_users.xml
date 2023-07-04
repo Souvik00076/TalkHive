@@ -3,24 +3,27 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/background"
     tools:context=".fragments.UsersFragment">
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/users_rv"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        android:layout_margin="@dimen/_16dp"
+        android:padding="@dimen/_16dp" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/addPerson"
         android:layout_width="@dimen/_48dp"
         android:layout_height="@dimen/_48dp"
-        android:id="@+id/addPerson"
-        android:src="@drawable/person_add"
-        android:backgroundTint="@color/white"
-        android:layout_alignParentBottom="true"
         android:layout_alignParentEnd="true"
-        android:layout_marginBottom="@dimen/_24dp"
+        android:layout_alignParentBottom="true"
         android:layout_marginEnd="@dimen/_24dp"
-        android:importantForAccessibility="no" />
+        android:layout_marginBottom="@dimen/_24dp"
+        android:backgroundTint="@color/white"
+        android:importantForAccessibility="no"
+        android:src="@drawable/person_add" />
 
 
 </RelativeLayout>
