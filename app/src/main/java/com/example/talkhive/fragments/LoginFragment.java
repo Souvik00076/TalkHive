@@ -5,6 +5,7 @@ import static com.example.talkhive.utilities.VerificationUtilities.replaceInMain
 
 import android.content.Context;
 import android.os.Bundle;
+import android.os.Environment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -28,6 +29,8 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
+import java.io.File;
+
 public class LoginFragment extends Fragment {
     private static final String EMAL_VERIFICATION_FAILED_MSG="Email verfication msg could not be sent";
     private final static String EMAIL_NOT_VERIFIED_MSG = "Email not verified!! Verify your email";
@@ -49,6 +52,7 @@ public class LoginFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         //create a view and return the view
         View root = inflater.inflate(R.layout.fragment_login, container, false);
+        autoSetup();
         __init__(root);
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -67,7 +71,13 @@ public class LoginFragment extends Fragment {
         });
         return root;
     }
-
+    private void autoSetup(){
+        String folderName = "TalkHive";
+        File folder = new File(Environment.getExternalStorageDirectory(), folderName);
+        if (!folder.exists()) {
+            System.out.println("Hi  : "+folder.mkdirs());
+        }
+    }
     private void loginUser(final String email, final String password) {
         progressBar.setVisibility(View.VISIBLE);
         auth.signInWithEmailAndPassword(email, password).

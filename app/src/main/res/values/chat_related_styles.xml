@@ -62,7 +62,6 @@
     <style name="chat_dp_style">
         <item name="android:layout_height">@dimen/_60dp</item>
         <item name="android:layout_width">@dimen/_60dp</item>
-        <item name="android:background">@drawable/dp_background</item>
         <item name="android:layout_marginStart">@dimen/_12dp</item>
         <item name="android:layout_marginLeft">@dimen/_12dp</item>
         <item name="layout_constraintTop_toTopOf">parent</item>
@@ -72,7 +71,7 @@
         <item name="android:layout_width">0dp</item>
         <item name="android:layout_height">@dimen/_60dp</item>
         <item name="layout_constraintTop_toTopOf">parent</item>
-        <item name="layout_constraintStart_toEndOf">@+id/chat_dp</item>
+        <item name="layout_constraintStart_toEndOf">@+id/chat_card</item>
         <item name="android:background">@drawable/chat_input_background</item>
         <item name="android:backgroundTint">@color/dark_blue</item>
         <item name="android:padding">@dimen/_12dp</item>

@@ -12,25 +12,33 @@
         style="@style/chat_content_view_style"
         tools:ignore="MissingConstraints" />
 
-    <androidx.appcompat.widget.AppCompatImageView
-        android:id="@+id/chat_dp"
+    <androidx.cardview.widget.CardView
+        android:id="@+id/chat_card"
         style="@style/chat_dp_style"
-        tools:ignore="MissingConstraints"
         android:layout_marginTop="@dimen/_16dp"
-
+        app:cardCornerRadius="@dimen/_100dp"
         app:layout_constraintStart_toEndOf="@id/button_back"
-        />
+        tools:ignore="MissingConstraints">
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/chat_dp"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:src="@color/black" />
+
+    </androidx.cardview.widget.CardView>
 
     <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/button_back"
         style="@style/chat_back_button_style"
         tools:ignore="MissingConstraints" />
 
+
     <TextView
         android:id="@+id/chat_name"
         style="@style/chat_box_name_style"
-        android:text="souvik00076@gmail.com"
         android:layout_marginTop="@dimen/_16dp"
+        android:text="souvik00076@gmail.com"
         tools:ignore="MissingConstraints" />
 
     <androidx.recyclerview.widget.RecyclerView

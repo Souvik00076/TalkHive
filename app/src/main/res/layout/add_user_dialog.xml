@@ -4,11 +4,21 @@
     android:layout_height="wrap_content"
     android:background="@drawable/background"
     android:orientation="vertical"
-    android:padding="@dimen/_8dp">
+    android:padding="@dimen/_12dp"
+    >
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/_48dp"
+        android:textColor="@color/white_smoke"
+        android:text="@string/add_user"
+        android:gravity="start"
+        android:textSize="@dimen/_25dp"/>
 
     <EditText
         android:id="@+id/email_et"
         style="@style/widget_edit_text_style"
+        android:layout_marginTop="@dimen/_8dp"
         android:hint="@string/emailhint"
         android:inputType="textEmailAddress" />
 

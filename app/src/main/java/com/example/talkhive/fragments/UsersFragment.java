@@ -12,11 +12,13 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.talkhive.R;
+import com.example.talkhive.utilities.dialogs.AddUserDialog;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 public class UsersFragment extends Fragment {
     private FloatingActionButton addPersonButton;
     private RecyclerView usersRv;
+    private static final String SHOW_USER_TAG = "Show Users";
 
     @Nullable
     @Override
@@ -26,7 +28,8 @@ public class UsersFragment extends Fragment {
         addPersonButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                AddUserDialog dialog = new AddUserDialog();
+                dialog.show(getChildFragmentManager(), SHOW_USER_TAG);
             }
         });
         return root;
