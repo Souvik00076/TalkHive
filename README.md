@@ -14,3 +14,9 @@
 # Day 3
 1)Added to more fragments for holding the chats and list of users you will be adding to your app<br>
 2)Added a new activity which uses TabLayout that will hold the chatFragment as well as userFragment
+
+# Day 4
+1)Dialog added to add users
+
+# Day 5
+1)User can now add user in firebase
