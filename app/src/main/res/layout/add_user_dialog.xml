@@ -13,7 +13,8 @@
         android:textColor="@color/white_smoke"
         android:text="@string/add_user"
         android:gravity="start"
-        android:textSize="@dimen/_25dp"/>
+        android:textSize="@dimen/_25dp"
+        />
 
     <EditText
         android:id="@+id/email_et"

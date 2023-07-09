@@ -177,23 +177,15 @@ public class SignupFragment extends Fragment {
         uploadTask.addOnCompleteListener(new OnCompleteListener<UploadTask.TaskSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<UploadTask.TaskSnapshot> task) {
-                if (task.isSuccessful()) {
-                    storageReference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-                        @Override
-                        public void onSuccess(Uri uri) {
-                            uploadUserRealTimeDb(uri.toString(), email);
-                        }
-                    });
-                } else uploadUserRealTimeDb(null, email);
+                uploadUserRealTimeDb(email);
             }
 
-            public void uploadUserRealTimeDb(final String uri, final String email) {
+            public void uploadUserRealTimeDb(final String email) {
                 final String uniqueKey = email.replace(".", "");
                 DatabaseReference dbReference = FirebaseDatabase.getInstance()
                         .getReference().child("Users/" + uniqueKey);
                 User user;
-                if (uri == null) user = new User(email);
-                else user = new User(email, uri);
+                user = new User(email);
 
                 dbReference.setValue(user).addOnCompleteListener(new OnCompleteListener<Void>() {
                     @Override

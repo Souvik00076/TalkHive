@@ -12,7 +12,7 @@
         android:id="@+id/chat_bubble_user_dp"
         style="@style/chat_dp_style"
         app:layout_constraintBottom_toBottomOf="parent"
-
+        android:src="@color/black"
         app:layout_constraintStart_toStartOf="parent"
         tools:ignore="MissingConstraints" />
 
