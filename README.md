@@ -25,3 +25,10 @@
 1)Adapter for contact list recycler view created.
 2)Firebase realtime data change listener is added.
 3)Now user will be see the users in their fragment after adding new user
+
+# Day 7
+1)User can also see the dp of their friends.
+2)Rescaled the layouts add user recycler view.
+3)on user item click in add user recycler view a chat screen is openning
+4)User dp is loaded with glide
+
