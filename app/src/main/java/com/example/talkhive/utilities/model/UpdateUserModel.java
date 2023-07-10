@@ -10,6 +10,9 @@ public class UpdateUserModel implements Serializable {
         this.email = email;
         this.name = name;
     }
+    public UpdateUserModel(){
+
+    }
 
     public String getEmail() {
         return email;
