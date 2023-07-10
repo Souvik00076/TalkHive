@@ -20,3 +20,8 @@
 
 # Day 5
 1)User can now add user in firebase
+
+# Day 6
+1)Adapter for contact list recycler view created.
+2)Firebase realtime data change listener is added.
+3)Now user will be see the users in their fragment after adding new user
