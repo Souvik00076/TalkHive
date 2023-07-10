@@ -43,13 +43,12 @@ public class VerificationUtilities {
             Log.i(CLASS_TAG, "Called Here");
             final String userId = user.getEmail().replace(".","");
             DatabaseReference reference = FirebaseDatabase.getInstance().getReference().child("Users");
-            Log.i(CLASS_TAG, nameToSearch);
             reference.child(nameToSearch.replace(".", "")).addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot snapshot) {
                     if (snapshot.exists()) {
                         Log.i(CLASS_TAG, "User Exist");
-                        reference.child(userId+"/contacts/"+ model.getName())
+                        reference.child(userId+"/contacts/"+ model.getEmail().replace(".",""))
                                 .setValue(model).addOnSuccessListener(new OnSuccessListener<Void>() {
                                     @Override
                                     public void onSuccess(Void unused) {

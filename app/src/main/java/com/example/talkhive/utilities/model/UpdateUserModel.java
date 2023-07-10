@@ -1,9 +1,12 @@
 package com.example.talkhive.utilities.model;
 
+import android.net.Uri;
+
 import java.io.Serializable;
 
 public class UpdateUserModel implements Serializable {
     private String email, name;
+
 
 
     public UpdateUserModel(String email, String name) {
@@ -13,7 +16,6 @@ public class UpdateUserModel implements Serializable {
     public UpdateUserModel(){
 
     }
-
     public String getEmail() {
         return email;
     }
@@ -21,6 +23,5 @@ public class UpdateUserModel implements Serializable {
     public String getName() {
         return name;
     }
-
 
 }
