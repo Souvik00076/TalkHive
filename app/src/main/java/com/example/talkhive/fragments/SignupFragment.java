@@ -5,13 +5,11 @@ import static com.example.talkhive.utilities.VerificationUtilities.replaceInMain
 import static com.example.talkhive.utilities.VerificationUtilities.verifyEmail;
 
 import android.content.Context;
-import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
-import android.provider.MediaStore;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,32 +19,26 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
-import androidx.activity.result.ActivityResult;
 import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.core.graphics.drawable.DrawableKt;
 import androidx.fragment.app.Fragment;
 
-import com.example.talkhive.MainActivity;
 import com.example.talkhive.R;
 import com.example.talkhive.utilities.model.User;
+import com.example.talkhive.utilities.model.UserDetailsModel;
 import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
-import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 
 public class SignupFragment extends Fragment {
@@ -60,7 +52,7 @@ public class SignupFragment extends Fragment {
     private ProgressBar progressBar;
     private ImageView userDp;
     private FirebaseStorage storage;
-
+    private DatabaseReference dbReference;
     @Override
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
@@ -182,12 +174,11 @@ public class SignupFragment extends Fragment {
 
             public void uploadUserRealTimeDb(final String email) {
                 final String uniqueKey = email.replace(".", "");
-                DatabaseReference dbReference = FirebaseDatabase.getInstance()
-                        .getReference().child("Users/" + uniqueKey);
+
                 User user;
                 user = new User(email);
 
-                dbReference.setValue(user).addOnCompleteListener(new OnCompleteListener<Void>() {
+                dbReference.child("Users/"+uniqueKey).setValue(user).addOnCompleteListener(new OnCompleteListener<Void>() {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
                         if (task.isSuccessful()) {
@@ -210,14 +201,16 @@ public class SignupFragment extends Fragment {
 
 
     private void __init__(View root) {
+        UserDetailsModel uModel = UserDetailsModel.getInstance();
         emailEt = root.findViewById(R.id.email_text);
         passwordEt = root.findViewById(R.id.password_text);
         confirmPasswordEt = root.findViewById(R.id.confirm_password_text);
-        auth = FirebaseAuth.getInstance();
+        auth = uModel.getAuth();
         signUpButton = root.findViewById(R.id.signup_button);
         progressBar = root.findViewById(R.id.progress_bar);
         userDp = root.findViewById(R.id.dp_iv);
-        storage = FirebaseStorage.getInstance();
+        storage = uModel.getFirebaseStorage();
+        dbReference=uModel.getDatabaseReference();
     }
 
 }

@@ -8,13 +8,22 @@
     android:background="@drawable/chat_bubble_background_rv"
     android:padding="@dimen/_16dp">
 
-    <androidx.appcompat.widget.AppCompatImageView
-        android:id="@+id/chat_bubble_user_dp"
-        style="@style/chat_dp_style"
-        app:layout_constraintBottom_toBottomOf="parent"
-        android:src="@color/black"
+    <androidx.cardview.widget.CardView
+        android:id="@+id/dp_card"
+        android:layout_width="@dimen/_60dp"
+        android:layout_height="@dimen/_60dp"
+        app:cardCornerRadius="@dimen/_48dp"
         app:layout_constraintStart_toStartOf="parent"
-        tools:ignore="MissingConstraints" />
+        app:layout_constraintTop_toTopOf="parent">
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/chat_bubble_user_dp"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:src="@color/black" />
+
+    </androidx.cardview.widget.CardView>
+
 
     <LinearLayout
         android:layout_width="0dp"
@@ -23,7 +32,7 @@
         android:paddingStart="@dimen/_16dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@id/chat_bubble_user_dp"
+        app:layout_constraintStart_toEndOf="@id/dp_card"
         app:layout_constraintTop_toTopOf="parent"
 
         tools:ignore="MissingConstraints">

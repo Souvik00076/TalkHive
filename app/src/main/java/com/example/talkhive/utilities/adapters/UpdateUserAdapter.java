@@ -1,6 +1,5 @@
 package com.example.talkhive.utilities.adapters;
 
-import android.content.Context;
 import android.net.Uri;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -85,7 +84,7 @@ public class UpdateUserAdapter extends RecyclerView.Adapter<UpdateUserAdapter.Us
         public void bindView(final UpdateUserModel model) {
             displayNameView.setText(model.getName());
             displayEmailView.setText(model.getEmail());
-            detailsModel.getStorageReference().child(model.getEmail().replace(".","")+"/dp.jpg")
+            detailsModel.getImageReference().child(model.getEmail().replace(".","")+"/dp.jpg")
                     .getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                         @Override
                         public void onSuccess(Uri uri) {

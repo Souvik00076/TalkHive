@@ -14,4 +14,7 @@
     <string name="signin">Add</string>
     <string name="cancel">Cancel\n</string>
     <string name="add_user">Add Email\n</string>
+    <string name="profile_menu_item">Profile</string>
+    <string name="logout_menu_item">Logout</string>
+    <string name="settings_menu_item">Settings</string>
 </resources>

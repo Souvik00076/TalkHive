@@ -2,27 +2,25 @@ package com.example.talkhive.fragments;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import com.example.talkhive.ChatActivity;
 import com.example.talkhive.R;
 import com.example.talkhive.utilities.adapters.UpdateUserAdapter;
 import com.example.talkhive.utilities.dialogs.AddUserDialog;
 import com.example.talkhive.utilities.model.UpdateUserModel;
+import com.example.talkhive.utilities.model.User;
+import com.example.talkhive.utilities.model.UserDetailsModel;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -39,7 +37,7 @@ public class UsersFragment extends Fragment implements UpdateUserAdapter.userIte
     private RecyclerView usersRv;
     private static final String SHOW_USER_TAG = "Show Users";
     private UpdateUserAdapter adapter;
-    private DatabaseReference reference;
+    private DatabaseReference databaseReference;
     private ChildEventListener listener;
     private ArrayList<UpdateUserModel> dataSet;
     private ChatActivity chatActivity;
@@ -66,10 +64,11 @@ public class UsersFragment extends Fragment implements UpdateUserAdapter.userIte
     }
 
     private void init(final View root) {
+        UserDetailsModel uModel = UserDetailsModel.getInstance();
         dataSet = new ArrayList<>();
         addPersonButton = root.findViewById(R.id.addPerson);
         usersRv = root.findViewById(R.id.users_rv);
-        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        FirebaseUser user = uModel.getAuth().getCurrentUser();
         String userEmail = null;
         if (user != null) {
             userEmail = user.getEmail().replace(".", "");
@@ -77,7 +76,7 @@ public class UsersFragment extends Fragment implements UpdateUserAdapter.userIte
         adapter = new UpdateUserAdapter(this);
         usersRv.setAdapter(adapter);
         usersRv.setLayoutManager(new LinearLayoutManager(getContext()));
-        reference = FirebaseDatabase.getInstance().getReference().child("Users/" + userEmail + "/contacts");
+        databaseReference = uModel.getDatabaseReference().child("Users/" + userEmail + "/contacts");
         listener = new ChildEventListener() {
             @SuppressLint("NotifyDataSetChanged")
             @Override
@@ -107,7 +106,7 @@ public class UsersFragment extends Fragment implements UpdateUserAdapter.userIte
 
             }
         };
-        reference.addChildEventListener(listener);
+        databaseReference.addChildEventListener(listener);
     }
 
     @Override

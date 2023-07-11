@@ -7,15 +7,15 @@ import java.io.Serializable;
 public class UpdateUserModel implements Serializable {
     private String email, name;
 
-
-
     public UpdateUserModel(String email, String name) {
         this.email = email;
         this.name = name;
     }
-    public UpdateUserModel(){
+
+    public UpdateUserModel() {
 
     }
+
     public String getEmail() {
         return email;
     }
