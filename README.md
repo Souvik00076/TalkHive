@@ -32,3 +32,8 @@
 3)on user item click in add user recycler view a chat screen is openning
 4)User dp is loaded with glide
 
+# Day 8
+1)Menu added.
+2)Action bar added.
+
+
