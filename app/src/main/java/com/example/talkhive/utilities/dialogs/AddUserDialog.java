@@ -47,7 +47,7 @@ public class AddUserDialog extends DialogFragment {
                 final String emailText = emailEt.getText().toString();
                 final String nameText = nameEt.getText().toString();
                 Intent intent = new Intent(getContext(), UpdateUserService.class);
-                intent.putExtra(QUERY_TAG, new UpdateUserModel(emailText, nameText));
+                intent.putExtra(QUERY_TAG, new UpdateUserModel(emailText, nameText, false));
                 requireActivity().startService(intent);
             }
         });

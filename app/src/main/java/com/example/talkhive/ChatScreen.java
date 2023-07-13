@@ -39,7 +39,7 @@ public class ChatScreen extends AppCompatActivity {
         init();
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
-            model = (UpdateUserModel) extras.getSerializable("USER_DETAILS");
+            model = (UpdateUserModel) extras.getParcelable("USER_DETAILS");
             chatName.setText(model.getName());
             detailsModel.getImageReference().child(model.getEmail().replace(".", "") + "/dp.jpg")
                     .getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {

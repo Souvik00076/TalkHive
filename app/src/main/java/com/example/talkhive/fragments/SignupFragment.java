@@ -10,6 +10,7 @@ import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -30,6 +31,7 @@ import com.example.talkhive.R;
 import com.example.talkhive.utilities.model.User;
 import com.example.talkhive.utilities.model.UserDetailsModel;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
@@ -51,7 +53,7 @@ public class SignupFragment extends Fragment {
     private FirebaseAuth auth;
     private ProgressBar progressBar;
     private ImageView userDp;
-    private FirebaseStorage storage;
+    private StorageReference imageReference;
     private DatabaseReference dbReference;
     @Override
     public void onAttach(@NonNull Context context) {
@@ -163,22 +165,18 @@ public class SignupFragment extends Fragment {
         dpMap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
         byte[] imageData = baos.toByteArray();
         final String uniqueKey = email.replace(".", "");
-        StorageReference storageReference = storage.getReference().child("Users/" + uniqueKey + "/dp.jpg");
-        UploadTask uploadTask = storageReference.putBytes(imageData);
+        UploadTask uploadTask = imageReference.child(uniqueKey+"/dp.jpg").putBytes(imageData);
 
         uploadTask.addOnCompleteListener(new OnCompleteListener<UploadTask.TaskSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<UploadTask.TaskSnapshot> task) {
-                uploadUserRealTimeDb(email);
+                if(task.isSuccessful()) uploadUserRealTimeDb(email);
+
             }
 
             public void uploadUserRealTimeDb(final String email) {
                 final String uniqueKey = email.replace(".", "");
-
-                User user;
-                user = new User(email);
-
-                dbReference.child("Users/"+uniqueKey).setValue(user).addOnCompleteListener(new OnCompleteListener<Void>() {
+                dbReference.child("Users/"+uniqueKey+"/").setValue(email).addOnCompleteListener(new OnCompleteListener<Void>() {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
                         if (task.isSuccessful()) {
@@ -209,7 +207,7 @@ public class SignupFragment extends Fragment {
         signUpButton = root.findViewById(R.id.signup_button);
         progressBar = root.findViewById(R.id.progress_bar);
         userDp = root.findViewById(R.id.dp_iv);
-        storage = uModel.getFirebaseStorage();
+        imageReference = uModel.getImageReference();
         dbReference=uModel.getDatabaseReference();
     }
 

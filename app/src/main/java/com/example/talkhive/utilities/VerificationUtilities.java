@@ -1,14 +1,16 @@
 package com.example.talkhive.utilities;
 
-import android.app.Activity;
 import android.content.Context;
+import android.provider.ContactsContract;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.example.talkhive.MainActivity;
 import com.example.talkhive.utilities.model.UpdateUserModel;
+import com.example.talkhive.utilities.model.UserDetailsModel;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
@@ -17,9 +19,12 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.MutableData;
+import com.google.firebase.database.Transaction;
 import com.google.firebase.database.ValueEventListener;
 
 public class VerificationUtilities {
+    private static final UserDetailsModel utilities = UserDetailsModel.getInstance();
     private static final String CLASS_TAG = VerificationUtilities.class.getName();
     final static String emailPattern = "^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}$";
 
@@ -37,18 +42,18 @@ public class VerificationUtilities {
     }
 
     public static void updateUserHelper(UpdateUserModel model) {
-        final String nameToSearch = model.getEmail();
-        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        final String nameToSearch = model.getEmail().replace(".", "");
+        FirebaseUser user = utilities.getAuth().getCurrentUser();
         if (user != null) {
             Log.i(CLASS_TAG, "Called Here");
-            final String userId = user.getEmail().replace(".","");
-            DatabaseReference reference = FirebaseDatabase.getInstance().getReference().child("Users");
-            reference.child(nameToSearch.replace(".", "")).addValueEventListener(new ValueEventListener() {
+            final String userId = user.getEmail().replace(".", "");
+            DatabaseReference databaseReference = utilities.getDatabaseReference();
+            databaseReference.child("Users/" + nameToSearch).addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot snapshot) {
                     if (snapshot.exists()) {
                         Log.i(CLASS_TAG, "User Exist");
-                        reference.child(userId+"/contacts/"+ model.getEmail().replace(".",""))
+                        databaseReference.child("Users/"+userId+"/contacts/"+ model.getEmail().replace(".",""))
                                 .setValue(model).addOnSuccessListener(new OnSuccessListener<Void>() {
                                     @Override
                                     public void onSuccess(Void unused) {
@@ -60,6 +65,7 @@ public class VerificationUtilities {
                                         Log.i(CLASS_TAG,"Failure to add user");
                                     }
                                 });
+
                     }
                 }
 
@@ -69,5 +75,8 @@ public class VerificationUtilities {
                 }
             });
         }
+
     }
+
+
 }

@@ -31,13 +31,8 @@ public class UpdateUserService extends Service {
 
         @Override
         public void handleMessage(@NonNull Message msg) {
-            try {
-                Log.i(SERVICE_CLASS_TAG, "Firebase user updation thread");
-                updateUserHelper(modelObj);
-                Thread.sleep(5000);
-            } catch (InterruptedException e) {
-                Thread.currentThread().interrupt();
-            }
+            Log.i(SERVICE_CLASS_TAG, "Firebase user updation thread");
+            updateUserHelper(modelObj);
             stopSelf(msg.arg1);
         }
     }
@@ -56,7 +51,7 @@ public class UpdateUserService extends Service {
     public int onStartCommand(Intent intent, int flags, int startId) {
         Message msg = serviceHandler.obtainMessage();
         msg.arg1 = startId;
-        modelObj = (UpdateUserModel) intent.getSerializableExtra("QUERY");
+        modelObj = (UpdateUserModel) intent.getParcelableExtra("QUERY");
         serviceHandler.sendMessage(msg);
         return START_STICKY;
     }

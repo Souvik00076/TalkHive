@@ -8,16 +8,18 @@ import com.google.firebase.storage.StorageReference;
 
 public class UserDetailsModel {
 
-    public final FirebaseAuth auth;
-    public final DatabaseReference databaseReference;
+    private final FirebaseAuth auth;
+    private final FirebaseDatabase database;
+    private final DatabaseReference databaseReference;
+
     private final StorageReference imageReference;
     private static UserDetailsModel instance;
     private final FirebaseStorage firebaseStorage;
 
     private UserDetailsModel() {
         auth = FirebaseAuth.getInstance();
-        databaseReference = FirebaseDatabase.getInstance().getReference();
-        String emailKey = auth.getCurrentUser().getEmail().replace(".", "");
+        database = FirebaseDatabase.getInstance();
+        databaseReference = database.getReference();
         firebaseStorage = FirebaseStorage.getInstance();
         imageReference = firebaseStorage.getReference().child("Users/");
     }
@@ -25,6 +27,10 @@ public class UserDetailsModel {
     public static UserDetailsModel getInstance() {
         if (instance == null) instance = new UserDetailsModel();
         return instance;
+    }
+
+    public FirebaseDatabase getDatabase() {
+        return database;
     }
 
     public FirebaseAuth getAuth() {
