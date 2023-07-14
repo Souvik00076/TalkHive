@@ -34,6 +34,9 @@
         <service
             android:name=".utilities.services.UpdateUserService"
             android:exported="false" />
+        <service
+            android:name=".utilities.services.ChatService"
+            android:exported="false" />
     </application>
 
 </manifest>

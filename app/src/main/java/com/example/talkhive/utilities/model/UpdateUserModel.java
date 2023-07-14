@@ -10,12 +10,22 @@ import java.io.Serializable;
 
 public class UpdateUserModel implements Parcelable {
     private String email, name;
-    private boolean flag;
+    private String chatId;
 
-    public UpdateUserModel(String email, String name,boolean flag) {
+
+    public String getChatId() {
+        return chatId;
+    }
+
+    public void setChatId(String chatId) {
+        this.chatId = chatId;
+    }
+
+    public UpdateUserModel(String email, String name,
+                           String chatId) {
         this.email = email;
         this.name = name;
-        this.flag=flag;
+        this.chatId=chatId;
     }
     public UpdateUserModel(){
 
@@ -24,7 +34,7 @@ public class UpdateUserModel implements Parcelable {
     protected UpdateUserModel(Parcel in) {
         email = in.readString();
         name = in.readString();
-        flag = in.readByte() != 0;
+        chatId=in.readString();
     }
 
     public static final Creator<UpdateUserModel> CREATOR = new Creator<UpdateUserModel>() {
@@ -55,14 +65,6 @@ public class UpdateUserModel implements Parcelable {
         this.name = name;
     }
 
-    public boolean isFlag() {
-        return flag;
-    }
-
-    public void setFlag(boolean flag) {
-        this.flag = flag;
-    }
-
     @Override
     public int describeContents() {
         return 0;
@@ -72,6 +74,6 @@ public class UpdateUserModel implements Parcelable {
     public void writeToParcel(@NonNull Parcel parcel, int i) {
         parcel.writeString(email);
         parcel.writeString(name);
-        parcel.writeByte((byte) (flag ? 1 : 0));
+        parcel.writeString(chatId);
     }
 }

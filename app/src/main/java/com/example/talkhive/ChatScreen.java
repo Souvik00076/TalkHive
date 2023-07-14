@@ -1,22 +1,30 @@
 package com.example.talkhive;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatImageView;
 
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.HandlerThread;
+import android.os.IBinder;
+import android.os.Process;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
-import com.example.talkhive.utilities.model.Message;
+import com.example.talkhive.utilities.model.MessageModel;
 import com.example.talkhive.utilities.model.UpdateUserModel;
 import com.example.talkhive.utilities.model.UserDetailsModel;
+import com.example.talkhive.utilities.services.ChatService;
+import com.example.talkhive.utilities.services.UpdateUserService;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 
@@ -34,8 +42,8 @@ public class ChatScreen extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.chat_screen_activity);
-        ActionBar actionBar=getSupportActionBar();
-        if(null!=actionBar) actionBar.hide();
+        ActionBar actionBar = getSupportActionBar();
+        if (null != actionBar) actionBar.hide();
         init();
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
@@ -49,15 +57,20 @@ public class ChatScreen extends AppCompatActivity {
                         }
                     });
         }
+
+
         buttonSend.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 final String chatMessage = sendMessageEt.getText().toString();
-                if(!TextUtils.isEmpty(chatMessage)) {
-                    Message message = new Message(auth.getCurrentUser().getEmail(),
-                            model.getEmail(),chatMessage,
-                            System.currentTimeMillis()/1000
-                            );
+                if (!TextUtils.isEmpty(chatMessage)) {
+                    MessageModel message = new MessageModel(auth.getCurrentUser().getEmail(),
+                            model.getEmail(), chatMessage,
+                            System.currentTimeMillis() / 1000
+                    );
+                    Intent intent = new Intent(ChatScreen.this, ChatService.class);
+                    intent.putExtra("Message", message);
+                    startService(intent);
                 }
             }
         });

@@ -176,7 +176,7 @@ public class SignupFragment extends Fragment {
 
             public void uploadUserRealTimeDb(final String email) {
                 final String uniqueKey = email.replace(".", "");
-                dbReference.child("Users/"+uniqueKey+"/").setValue(email).addOnCompleteListener(new OnCompleteListener<Void>() {
+                dbReference.child("Users/"+uniqueKey+"/info/").setValue(email).addOnCompleteListener(new OnCompleteListener<Void>() {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
                         if (task.isSuccessful()) {

@@ -1,11 +1,13 @@
 package com.example.talkhive.utilities.model;
 
-public class Message {
+import java.io.Serializable;
+
+public class MessageModel implements Serializable {
     private String senderId, recieverId;
     private String message;
     private long timeStamp;
 
-    public Message(String senderId, String recieverId, String message, long timeStamp) {
+    public MessageModel(String senderId, String recieverId, String message, long timeStamp) {
         this.senderId = senderId;
         this.recieverId = recieverId;
         this.message = message;
