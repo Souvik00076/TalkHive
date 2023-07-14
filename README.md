@@ -36,7 +36,3 @@
 1)Menu added.
 2)Action bar added.
 
-<<<<<<< HEAD
-
-=======
->>>>>>> origin/main
