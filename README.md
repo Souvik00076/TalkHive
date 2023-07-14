@@ -36,4 +36,6 @@
 1)Menu added.
 2)Action bar added.
 
-
+# Day 9
+1)Users can send each other message.
+2)Chat service added.
