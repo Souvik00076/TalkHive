@@ -40,3 +40,7 @@
 # Day 9
 1)Users can send each other message.<br>
 2)Chat service added.
+
+
+# Day 10
+1)Chats can be viewd in recycler view.
