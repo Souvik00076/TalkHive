@@ -10,6 +10,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -78,9 +79,10 @@ public class UsersFragment extends Fragment implements UpdateUserAdapter.userIte
         usersRv.setLayoutManager(new LinearLayoutManager(getContext()));
         databaseReference = uModel.getDatabaseReference().child("Users/" + userEmail + "/contacts");
         listener = new ChildEventListener() {
-            @SuppressLint("NotifyDataSetChanged")
+
             @Override
             public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+                Log.i("Users Fragment",snapshot.getValue(UpdateUserModel.class).getEmail()+" added");
                 dataSet.add(snapshot.getValue(UpdateUserModel.class));
                 adapter.setDataSet(dataSet);
                 adapter.notifyDataSetChanged();

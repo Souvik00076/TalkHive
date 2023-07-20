@@ -13,8 +13,10 @@ public class MessageModel implements Serializable {
         this.message = message;
         this.timeStamp = timeStamp;
     }
+    public MessageModel(){
 
-    public long getTimeStamp() {
+    }
+       public long getTimeStamp() {
         return timeStamp;
     }
 

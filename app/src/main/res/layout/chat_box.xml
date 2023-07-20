@@ -12,20 +12,22 @@
         android:text="sdhfkjsdhfkjsadh"
         tools:ignore="MissingConstraints" />
 
-    <TextView
-        android:id="@+id/sender_message"
-        style="@style/send_message_time"
-        android:text="wed, 9:11pm"
-        tools:ignore="MissingConstraints" />
+
 
     <TextView
+        android:id="@+id/reciever_message_time"
         style="@style/recieved_message_time"
         android:text="wed, 9:11pm"
         tools:ignore="MissingConstraints" />
 
     <TextView
+        android:id="@+id/sender_message"
         style="@style/user_chat_view"
         android:text="fsdhfsdfsdfsdfsdf"
         tools:ignore="MissingConstraints" />
-
+    <TextView
+        android:id="@+id/sender_message_time"
+        style="@style/send_message_time"
+        android:text="wed, 9:11pm"
+        tools:ignore="MissingConstraints" />
 </androidx.constraintlayout.widget.ConstraintLayout>

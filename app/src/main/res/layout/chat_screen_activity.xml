@@ -45,7 +45,7 @@
         android:id="@+id/chat_view"
         style="@style/chat_recycler_view_style"
         android:clipToPadding="false"
-        android:visibility="gone"
+
         tools:ignore="MissingConstraints" />
 
     <ProgressBar

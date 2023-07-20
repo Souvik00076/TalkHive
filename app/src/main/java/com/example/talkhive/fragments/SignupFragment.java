@@ -156,6 +156,7 @@ public class SignupFragment extends Fragment {
     }
 
     private void uploadUser(final String email) {
+
         //convert to bitmap first
         Drawable drawable = userDp.getDrawable();
         Bitmap dpMap = ((BitmapDrawable) drawable).getBitmap();
@@ -170,6 +171,7 @@ public class SignupFragment extends Fragment {
         uploadTask.addOnCompleteListener(new OnCompleteListener<UploadTask.TaskSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<UploadTask.TaskSnapshot> task) {
+                Log.i("Upload User","Called");
                 if(task.isSuccessful()) uploadUserRealTimeDb(email);
 
             }

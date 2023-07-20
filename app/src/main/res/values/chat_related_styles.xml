@@ -89,7 +89,7 @@
         <item name="android:layout_width">match_parent</item>
 
         <item name="layout_constraintBottom_toBottomOf">@+id/app_view</item>
-        <item name="layout_constraintTop_toBottomOf">@+id/chat_dp</item>
+        <item name="layout_constraintTop_toBottomOf">@+id/chat_card</item>
         <item name="android:padding">@dimen/_20dp</item>
         <item name="android:overScrollMode">never</item>
     </style>
