@@ -23,6 +23,7 @@
 
 # Day 6
 1)Adapter for contact list recycler view created.
+
 2)Firebase realtime data change listener is added.
 3)Now user will be see the users in their fragment after adding new user
 
@@ -44,3 +45,7 @@
 
 # Day 10
 1)Chats can be viewd in recycler view.
+
+
+# Day 11
+1) Added some helper function to clean code
