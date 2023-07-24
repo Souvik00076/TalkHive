@@ -5,8 +5,7 @@ import android.util.Log;
 import androidx.annotation.NonNull;
 
 import com.example.talkhive.utilities.model.UpdateUserModel;
-import com.example.talkhive.utilities.model.User;
-import com.example.talkhive.utilities.model.UserDetailsModel;
+import com.example.talkhive.utilities.model.UserToken;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -14,7 +13,7 @@ import com.google.firebase.database.ValueEventListener;
 
 public class FirebaseUtilities {
     private static final String CLASS_NAME = "FirebaseUtilities";
-    private static UserDetailsModel model = UserDetailsModel.getInstance();
+    private static UserToken model = UserToken.getInstance();
 
     public static void updateUser(final UpdateUserModel userModel) {
         final String ownerEmail = model.getAuth().getCurrentUser().getEmail()

@@ -15,14 +15,14 @@ import com.bumptech.glide.Glide;
 import com.example.talkhive.R;
 import com.example.talkhive.fragments.UsersFragment;
 import com.example.talkhive.utilities.model.UpdateUserModel;
-import com.example.talkhive.utilities.model.UserDetailsModel;
+import com.example.talkhive.utilities.model.UserToken;
 import com.google.android.gms.tasks.OnSuccessListener;
 
 import java.util.ArrayList;
 
 public class UpdateUserAdapter extends RecyclerView.Adapter<UpdateUserAdapter.UserHolder> {
     private static final String CLASS_TAG = UpdateUserModel.class.getName();
-    private final UserDetailsModel detailsModel;
+    private final UserToken detailsModel;
     private ArrayList<UpdateUserModel> dataSet;
     private final UsersFragment context;
 
@@ -35,7 +35,7 @@ public class UpdateUserAdapter extends RecyclerView.Adapter<UpdateUserAdapter.Us
     public UpdateUserAdapter(UsersFragment context) {
         this.context = context;
         dataSet = new ArrayList<>();
-        detailsModel = UserDetailsModel.getInstance();
+        detailsModel = UserToken.getInstance();
         listener = (userItemClickListener) context;
     }
 

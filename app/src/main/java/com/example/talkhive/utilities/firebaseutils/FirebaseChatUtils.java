@@ -6,18 +6,17 @@ import androidx.annotation.NonNull;
 
 import com.example.talkhive.ChatScreen;
 import com.example.talkhive.utilities.model.MessageModel;
-import com.example.talkhive.utilities.model.UserDetailsModel;
+import com.example.talkhive.utilities.model.UserToken;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.ValueEventListener;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 public class FirebaseChatUtils {
-    private static UserDetailsModel model = UserDetailsModel.getInstance();
+    private static UserToken model = UserToken.getInstance();
     private static final String CLASS_NAME = "Firebase Chat Utils";
 
     public interface FirebaseCallback {

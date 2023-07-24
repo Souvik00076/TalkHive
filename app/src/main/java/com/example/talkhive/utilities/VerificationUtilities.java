@@ -1,30 +1,24 @@
 package com.example.talkhive.utilities;
 
 import android.content.Context;
-import android.provider.ContactsContract;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.example.talkhive.MainActivity;
 import com.example.talkhive.utilities.model.UpdateUserModel;
-import com.example.talkhive.utilities.model.UserDetailsModel;
+import com.example.talkhive.utilities.model.UserToken;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.MutableData;
-import com.google.firebase.database.Transaction;
 import com.google.firebase.database.ValueEventListener;
 
 public class VerificationUtilities {
-    private static final UserDetailsModel utilities = UserDetailsModel.getInstance();
+    private static final UserToken utilities = UserToken.getInstance();
     private static final String CLASS_TAG = VerificationUtilities.class.getName();
     final static String emailPattern = "^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}$";
 

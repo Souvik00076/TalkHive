@@ -1,6 +1,5 @@
 package com.example.talkhive.fragments;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.os.Bundle;
 
@@ -20,16 +19,13 @@ import com.example.talkhive.R;
 import com.example.talkhive.utilities.adapters.UpdateUserAdapter;
 import com.example.talkhive.utilities.dialogs.AddUserDialog;
 import com.example.talkhive.utilities.model.UpdateUserModel;
-import com.example.talkhive.utilities.model.User;
-import com.example.talkhive.utilities.model.UserDetailsModel;
+import com.example.talkhive.utilities.model.UserToken;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
 
@@ -65,11 +61,11 @@ public class UsersFragment extends Fragment implements UpdateUserAdapter.userIte
     }
 
     private void init(final View root) {
-        UserDetailsModel uModel = UserDetailsModel.getInstance();
+        UserToken userToken = UserToken.getInstance();
         dataSet = new ArrayList<>();
         addPersonButton = root.findViewById(R.id.addPerson);
         usersRv = root.findViewById(R.id.users_rv);
-        FirebaseUser user = uModel.getAuth().getCurrentUser();
+        FirebaseUser user = userToken.getAuth().getCurrentUser();
         String userEmail = null;
         if (user != null) {
             userEmail = user.getEmail().replace(".", "");
@@ -77,7 +73,7 @@ public class UsersFragment extends Fragment implements UpdateUserAdapter.userIte
         adapter = new UpdateUserAdapter(this);
         usersRv.setAdapter(adapter);
         usersRv.setLayoutManager(new LinearLayoutManager(getContext()));
-        databaseReference = uModel.getDatabaseReference().child("Users/" + userEmail + "/contacts");
+        databaseReference = userToken.getDatabaseReference().child("Users/" + userEmail + "/contacts");
         listener = new ChildEventListener() {
 
             @Override

@@ -6,17 +6,17 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
-public class UserDetailsModel {
+public class UserToken {
 
     private final FirebaseAuth auth;
     private final FirebaseDatabase database;
     private final DatabaseReference databaseReference;
 
     private final StorageReference imageReference;
-    private static UserDetailsModel instance;
+    private static UserToken instance;
     private final FirebaseStorage firebaseStorage;
 
-    private UserDetailsModel() {
+    private UserToken() {
         auth = FirebaseAuth.getInstance();
         database = FirebaseDatabase.getInstance();
         databaseReference = database.getReference();
@@ -24,8 +24,8 @@ public class UserDetailsModel {
         imageReference = firebaseStorage.getReference().child("Users/");
     }
 
-    public static UserDetailsModel getInstance() {
-        if (instance == null) instance = new UserDetailsModel();
+    public static UserToken getInstance() {
+        if (instance == null) instance = new UserToken();
         return instance;
     }
 

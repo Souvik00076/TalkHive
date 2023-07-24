@@ -1,12 +1,18 @@
 package com.example.talkhive.utilities.model;
 
+import android.graphics.Bitmap;
+
 public class User {
 
     private String email;
+    private String password;
+    private Bitmap bitmap;
 
+    public User(String email, String password, Bitmap bitmap) {
 
-    public User(String email) {
         this.email = email;
+        this.password = password;
+        this.bitmap = bitmap;
     }
 
     public String getEmail() {
@@ -17,5 +23,11 @@ public class User {
         this.email = email;
     }
 
+    public String getPassword() {
+        return password;
+    }
 
+    public Bitmap getBitmap() {
+        return bitmap;
+    }
 }
