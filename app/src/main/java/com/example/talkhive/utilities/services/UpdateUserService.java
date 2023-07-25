@@ -1,6 +1,6 @@
 package com.example.talkhive.utilities.services;
 
-import static com.example.talkhive.utilities.VerificationUtilities.updateUserHelper;
+
 import static com.example.talkhive.utilities.firebaseutils.FirebaseUtilities.updateUser;
 
 import android.app.Service;

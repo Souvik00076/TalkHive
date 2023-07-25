@@ -16,6 +16,7 @@ import com.example.talkhive.R;
 import com.example.talkhive.fragments.UsersFragment;
 import com.example.talkhive.utilities.model.UpdateUserModel;
 import com.example.talkhive.utilities.model.UserToken;
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 
 import java.util.ArrayList;
@@ -82,14 +83,22 @@ public class UpdateUserAdapter extends RecyclerView.Adapter<UpdateUserAdapter.Us
         }
 
         public void bindView(final UpdateUserModel model) {
+
+            Log.i("bindView"," called");
             displayNameView.setText(model.getName());
+
             displayEmailView.setText(model.getEmail());
+
             detailsModel.getImageReference().child(model.getEmail().replace(".","")+"/dp.jpg")
                     .getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                         @Override
                         public void onSuccess(Uri uri) {
-                            Log.i(CLASS_TAG, "Called here");
                             Glide.with(context).load(uri).into(displayUserView);
+                        }
+                    }).addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                                displayUserView.setImageResource(R.drawable.dummy);
                         }
                     });
         }

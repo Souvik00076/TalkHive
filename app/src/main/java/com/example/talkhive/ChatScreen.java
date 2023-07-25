@@ -3,6 +3,7 @@ package com.example.talkhive;
 import static com.example.talkhive.utilities.firebaseutils.FirebaseChatUtils.loadChat;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatImageView;
@@ -22,12 +23,15 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.example.talkhive.utilities.adapters.UpdateChatScreenAdapter;
+import com.example.talkhive.utilities.interfaces.ChatCallback;
 import com.example.talkhive.utilities.model.MessageModel;
 import com.example.talkhive.utilities.model.UpdateUserModel;
 import com.example.talkhive.utilities.model.UserToken;
 import com.example.talkhive.utilities.services.ChatService;
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -49,9 +53,8 @@ public class ChatScreen extends AppCompatActivity {
     private ArrayList<MessageModel> dataSet;
     private DatabaseReference reference;
     private String recipientEmail;
-    public interface ChatCallBack{
-        void onLoad(ArrayList<MessageModel> dataSet);
-    }
+    private String chatId;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -64,12 +67,22 @@ public class ChatScreen extends AppCompatActivity {
             model = (UpdateUserModel) extras.getParcelable("USER_DETAILS");
             recipientEmail = model.getEmail();
             init();
-            chatName.setText(model.getName());
+            final String name = model.getName() == null ? model.getEmail() : model.getName();
+            chatName.setText(name);
             detailsModel.getImageReference().child(recipientEmail.replace(".", "") + "/dp.jpg")
                     .getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                         @Override
                         public void onSuccess(Uri uri) {
-                            Glide.with(ChatScreen.this).load(uri).into(chatDp);
+                            try {
+                                Glide.with(ChatScreen.this).load(uri).into(chatDp);
+                            }catch (IllegalArgumentException e){
+                                e.printStackTrace();
+                            }
+                        }
+                    }).addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            chatDp.setImageResource(R.drawable.dummy);
                         }
                     });
         }
@@ -112,22 +125,59 @@ public class ChatScreen extends AppCompatActivity {
         reference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-
                 if (snapshot.exists()) {
+                    chatId = snapshot.child("chatId").getValue(String.class);
 
-                    final String chatId = snapshot.child("chatId").getValue(String.class);
-                    ChatCallBack callBack=new ChatCallBack() {
+                    detailsModel.getDatabaseReference().child("Convos/" + chatId).addListenerForSingleValueEvent(new ValueEventListener() {
                         @Override
-                        public void onLoad(ArrayList<MessageModel> dataSet) {
-                            Log.i("New Main",dataSet.size()+"");
+                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+                            for (DataSnapshot childSnapshot : snapshot.getChildren()) {
+                                MessageModel messageModel = childSnapshot.getValue(MessageModel.class);
+                                dataSet.add(messageModel);
+                            }
                             adapter.setDataSet(dataSet);
                             adapter.notifyDataSetChanged();
+
+                            chatView.smoothScrollToPosition(Math.max(adapter.getItemCount() - 1, 0));
                         }
-                    };
-                    loadChat(chatId,callBack);
 
-                    Log.i("ChatScreen",dataSet.size()+"");
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError error) {
 
+                        }
+                    });
+                    detailsModel.getDatabaseReference().child("Convos/" + chatId)
+                            .addChildEventListener(new ChildEventListener() {
+                                @Override
+                                public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+                                    Log.i("On Child Added", "not called?");
+                                    MessageModel messageModel = snapshot.getValue(MessageModel.class);
+                                    dataSet.add(messageModel);
+                                    adapter.notifyItemInserted(dataSet.size()-1);
+                                    //chatView.smoothScrollToPosition(adapter.getItemCount()-1);
+                                    chatView.scrollToPosition(adapter.getItemCount()-1);
+                                }
+
+                                @Override
+                                public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+
+                                }
+
+                                @Override
+                                public void onChildRemoved(@NonNull DataSnapshot snapshot) {
+
+                                }
+
+                                @Override
+                                public void onChildMoved(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+
+                                }
+
+                                @Override
+                                public void onCancelled(@NonNull DatabaseError error) {
+
+                                }
+                            });
                 }
             }
 
@@ -136,6 +186,5 @@ public class ChatScreen extends AppCompatActivity {
 
             }
         });
-
     }
 }
