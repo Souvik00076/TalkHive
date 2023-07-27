@@ -50,7 +50,6 @@ public class UpdateChatScreenAdapter extends RecyclerView.Adapter<UpdateChatScre
 
     class MessageHolder extends RecyclerView.ViewHolder {
         private TextView senderMessage, recieverMessage, getSenderMessageTime, recieverMessageTime;
-
         public MessageHolder(@NonNull View itemView) {
             super(itemView);
             senderMessage = itemView.findViewById(R.id.sender_message);
@@ -60,17 +59,20 @@ public class UpdateChatScreenAdapter extends RecyclerView.Adapter<UpdateChatScre
         }
 
         public void bindView(MessageModel model) {
-
+            recieverMessage.setVisibility(View.GONE);
+            recieverMessageTime.setVisibility(View.GONE);
+            senderMessage.setVisibility(View.GONE);
+            getSenderMessageTime.setVisibility(View.GONE);
             final String sender = model.getSenderId();
             final String owner = detailsModel.getAuth().getCurrentUser().getEmail();
             if (sender.equals(owner)) {
-                recieverMessage.setVisibility(View.GONE);
-                recieverMessageTime.setVisibility(View.GONE);
+                senderMessage.setVisibility(View.VISIBLE);
+                getSenderMessageTime.setVisibility(View.VISIBLE);
                 senderMessage.setText(model.getMessage());
                 getSenderMessageTime.setText(model.getTimeStamp() + "");
             } else {
-                senderMessage.setVisibility(View.GONE);
-                getSenderMessageTime.setVisibility(View.GONE);
+                recieverMessage.setVisibility(View.VISIBLE);
+                recieverMessageTime.setVisibility(View.VISIBLE);
                 recieverMessage.setText(model.getMessage());
                 recieverMessageTime.setText(model.getTimeStamp() + "");
             }

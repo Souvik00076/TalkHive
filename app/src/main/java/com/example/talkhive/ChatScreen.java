@@ -75,7 +75,7 @@ public class ChatScreen extends AppCompatActivity {
                         public void onSuccess(Uri uri) {
                             try {
                                 Glide.with(ChatScreen.this).load(uri).into(chatDp);
-                            }catch (IllegalArgumentException e){
+                            } catch (IllegalArgumentException e) {
                                 e.printStackTrace();
                             }
                         }
@@ -131,6 +131,7 @@ public class ChatScreen extends AppCompatActivity {
                     detailsModel.getDatabaseReference().child("Convos/" + chatId).addListenerForSingleValueEvent(new ValueEventListener() {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot snapshot) {
+                            dataSet.clear();
                             for (DataSnapshot childSnapshot : snapshot.getChildren()) {
                                 MessageModel messageModel = childSnapshot.getValue(MessageModel.class);
                                 dataSet.add(messageModel);
@@ -153,9 +154,8 @@ public class ChatScreen extends AppCompatActivity {
                                     Log.i("On Child Added", "not called?");
                                     MessageModel messageModel = snapshot.getValue(MessageModel.class);
                                     dataSet.add(messageModel);
-                                    adapter.notifyItemInserted(dataSet.size()-1);
-                                    //chatView.smoothScrollToPosition(adapter.getItemCount()-1);
-                                    chatView.scrollToPosition(adapter.getItemCount()-1);
+                                    adapter.notifyItemInserted(dataSet.size() - 1);
+                                    chatView.scrollToPosition(adapter.getItemCount() - 1);
                                 }
 
                                 @Override

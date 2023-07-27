@@ -9,6 +9,7 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.widget.AppCompatImageView;
+import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
@@ -33,8 +34,8 @@ public class UpdateUserAdapter extends RecyclerView.Adapter<UpdateUserAdapter.Us
 
     private userItemClickListener listener;
 
-    public UpdateUserAdapter(UsersFragment context) {
-        this.context = context;
+    public UpdateUserAdapter(Fragment context) {
+        this.context = (UsersFragment) context;
         dataSet = new ArrayList<>();
         detailsModel = UserToken.getInstance();
         listener = (userItemClickListener) context;
@@ -84,12 +85,12 @@ public class UpdateUserAdapter extends RecyclerView.Adapter<UpdateUserAdapter.Us
 
         public void bindView(final UpdateUserModel model) {
 
-            Log.i("bindView"," called");
+            Log.i("bindView", " called");
             displayNameView.setText(model.getName());
 
             displayEmailView.setText(model.getEmail());
 
-            detailsModel.getImageReference().child(model.getEmail().replace(".","")+"/dp.jpg")
+            detailsModel.getImageReference().child(model.getEmail().replace(".", "") + "/dp.jpg")
                     .getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                         @Override
                         public void onSuccess(Uri uri) {
@@ -98,7 +99,7 @@ public class UpdateUserAdapter extends RecyclerView.Adapter<UpdateUserAdapter.Us
                     }).addOnFailureListener(new OnFailureListener() {
                         @Override
                         public void onFailure(@NonNull Exception e) {
-                                displayUserView.setImageResource(R.drawable.dummy);
+                            displayUserView.setImageResource(R.drawable.dummy);
                         }
                     });
         }
