@@ -49,3 +49,6 @@
 
 # Day 11
 1) Added some helper function to clean code
+
+# Day 13
+1)Users will updated in the ChatFragment now.
