@@ -94,6 +94,11 @@ public class LoginFragment extends Fragment {
             }
 
             @Override
+            public void getFriendName(String name) {
+
+            }
+
+            @Override
             public void getLoginFlag(boolean flag, int errorCode) {
                 progressBar.setVisibility(View.GONE);
                 Log.i("getLogin"," Called here");

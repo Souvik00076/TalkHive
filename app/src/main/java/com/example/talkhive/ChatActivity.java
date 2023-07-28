@@ -13,6 +13,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import com.example.talkhive.utilities.adapters.ViewPagerAdapter;
+import com.example.talkhive.utilities.model.ChatModel;
 import com.example.talkhive.utilities.model.UpdateUserModel;
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
@@ -47,7 +48,7 @@ public class ChatActivity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu,menu);
+        getMenuInflater().inflate(R.menu.menu, menu);
         return true;
     }
 
@@ -59,6 +60,13 @@ public class ChatActivity extends AppCompatActivity {
     public void addChatScreen(final UpdateUserModel model) {
         Intent intent = new Intent(this, ChatScreen.class);
         intent.putExtra("USER_DETAILS", model);
+        startActivity(intent);
+    }
+
+    public void addChatScreen(final ChatModel model) {
+        Log.i("Hello",model.getSender());
+        Intent intent = new Intent(this, ChatScreen.class);
+        intent.putExtra("CHAT_DETAILS", model);
         startActivity(intent);
     }
 

@@ -126,6 +126,11 @@ public class SignupFragment extends Fragment {
             }
 
             @Override
+            public void getFriendName(String name) {
+
+            }
+
+            @Override
             public void getLoginFlag(boolean flag, final int errorCode) {
 
             }

@@ -24,6 +24,7 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.example.talkhive.utilities.adapters.UpdateChatScreenAdapter;
 import com.example.talkhive.utilities.interfaces.ChatCallback;
+import com.example.talkhive.utilities.model.ChatModel;
 import com.example.talkhive.utilities.model.MessageModel;
 import com.example.talkhive.utilities.model.UpdateUserModel;
 import com.example.talkhive.utilities.model.UserToken;
@@ -48,11 +49,12 @@ public class ChatScreen extends AppCompatActivity {
     private UserToken detailsModel;
     private FirebaseAuth auth;
     private UpdateUserModel model;
+    private ChatModel model2;
     private RecyclerView chatView;
     private UpdateChatScreenAdapter adapter;
     private ArrayList<MessageModel> dataSet;
     private DatabaseReference reference;
-    private String recipientEmail;
+    private String recipientEmail, recipientName;
     private String chatId;
 
     @Override
@@ -64,11 +66,17 @@ public class ChatScreen extends AppCompatActivity {
 
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
-            model = (UpdateUserModel) extras.getParcelable("USER_DETAILS");
-            recipientEmail = model.getEmail();
+            model = extras.getParcelable("USER_DETAILS");
+            model2 = extras.getParcelable("CHAT_DETAILS");
+            if (model != null) {
+                recipientEmail = model.getEmail();
+                recipientName = model.getName() == null ? model.getEmail() : model.getName();
+            } else {
+                recipientEmail = model2.getSender();
+                recipientName = model2.getSender();
+            }
             init();
-            final String name = model.getName() == null ? model.getEmail() : model.getName();
-            chatName.setText(name);
+            chatName.setText(recipientName);
             detailsModel.getImageReference().child(recipientEmail.replace(".", "") + "/dp.jpg")
                     .getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                         @Override
@@ -93,7 +101,7 @@ public class ChatScreen extends AppCompatActivity {
                 final String chatMessage = sendMessageEt.getText().toString();
                 if (!TextUtils.isEmpty(chatMessage)) {
                     MessageModel message = new MessageModel(auth.getCurrentUser().getEmail(),
-                            model.getEmail(), chatMessage,
+                            recipientEmail, chatMessage,
                             System.currentTimeMillis() / 1000
                     );
                     sendMessageEt.getText().clear();

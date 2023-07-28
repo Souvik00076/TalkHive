@@ -1,5 +1,6 @@
 package com.example.talkhive.fragments;
 
+import android.content.Context;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -13,8 +14,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.talkhive.ChatActivity;
 import com.example.talkhive.R;
 import com.example.talkhive.utilities.adapters.UpdateChatAdapter;
+import com.example.talkhive.utilities.interfaces.FirebaseRecyclerViewCallbacks;
 import com.example.talkhive.utilities.model.ChatModel;
 import com.example.talkhive.utilities.model.MessageModel;
 import com.example.talkhive.utilities.model.User;
@@ -29,14 +32,20 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 
 
-public class ChatFragment extends Fragment {
+public class ChatFragment extends Fragment implements FirebaseRecyclerViewCallbacks {
     private RecyclerView chatRv;
     private UpdateChatAdapter adapter;
     private UserToken token;
-    private final String ROUTE_PATH = "/ChatIds";
     private DatabaseReference reference;
     private FirebaseUser firebaseUser;
-    private ArrayList<MessageModel> dataSet;
+    private ArrayList<ChatModel> dataSet;
+    private ChatActivity chatActivity;
+
+    @Override
+    public void onAttach(@NonNull Context context) {
+        super.onAttach(context);
+        chatActivity = (ChatActivity) context;
+    }
 
     @Nullable
     @Override
@@ -51,51 +60,18 @@ public class ChatFragment extends Fragment {
         dataSet = new ArrayList<>();
         firebaseUser = token.getAuth().getCurrentUser();
         String key = firebaseUser.getEmail().replace(".", "");
-        String path="Users/" + key + ROUTE_PATH;
-        Log.i("Path",path);
-        reference = token.getDatabaseReference().child(path);
+        reference = token.getDatabaseReference().child("Users/" + firebaseUser.getEmail()
+                .replace(".", "") + "/ChatIds");
         reference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-
-                //dataSet.clear();
+                dataSet.clear();
                 for (DataSnapshot childSnapshot : snapshot.getChildren()) {
-                    Log.i("ChatFragment", " Called add Value Event Listener");
-                    ChatModel model = childSnapshot.getValue(ChatModel.class);
-                    if(model.getID()!=null)
-                    reference.child(model.getID())
-                            .addChildEventListener(new ChildEventListener() {
-                                @Override
-                                public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-                                    Log.i("On Child ","Called");
-                                    MessageModel model = snapshot.getValue(MessageModel.class);
-                                    dataSet.add(model);
-                                    adapter.notifyDataSetChanged();
-                                }
-
-                                @Override
-                                public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-                                    Log.i("On Child ","Updated");
-                                }
-
-                                @Override
-                                public void onChildRemoved(@NonNull DataSnapshot snapshot) {
-
-                                }
-
-                                @Override
-                                public void onChildMoved(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-
-                                }
-
-                                @Override
-                                public void onCancelled(@NonNull DatabaseError error) {
-
-                                }
-                            });
+                    Log.i("Chat Fragment", "called here");
+                    ChatModel chatModel = childSnapshot.getValue(ChatModel.class);
+                    dataSet.add(chatModel);
                 }
-
-
+                adapter.setDataSet(dataSet);
             }
 
             @Override
@@ -103,9 +79,16 @@ public class ChatFragment extends Fragment {
 
             }
         });
+
         chatRv = root.findViewById(R.id.chat_rv);
         adapter = new UpdateChatAdapter(this);
         chatRv.setAdapter(adapter);
         chatRv.setLayoutManager(new LinearLayoutManager(getContext()));
+    }
+
+    @Override
+    public void onClickListener(ChatModel model) {
+        Log.i("Chat Fragment", "Request for new fragment");
+        chatActivity.addChatScreen(model);
     }
 }
