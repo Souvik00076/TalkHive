@@ -19,8 +19,7 @@ import com.example.talkhive.R;
 import com.example.talkhive.utilities.adapters.UpdateChatAdapter;
 import com.example.talkhive.utilities.interfaces.FirebaseRecyclerViewCallbacks;
 import com.example.talkhive.utilities.model.ChatModel;
-import com.example.talkhive.utilities.model.MessageModel;
-import com.example.talkhive.utilities.model.User;
+
 import com.example.talkhive.utilities.model.UserToken;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.ChildEventListener;
@@ -36,7 +35,7 @@ public class ChatFragment extends Fragment implements FirebaseRecyclerViewCallba
     private RecyclerView chatRv;
     private UpdateChatAdapter adapter;
     private UserToken token;
-    private DatabaseReference reference;
+    private DatabaseReference chatReference, requestReference;
     private FirebaseUser firebaseUser;
     private ArrayList<ChatModel> dataSet;
     private ChatActivity chatActivity;
@@ -60,18 +59,52 @@ public class ChatFragment extends Fragment implements FirebaseRecyclerViewCallba
         dataSet = new ArrayList<>();
         firebaseUser = token.getAuth().getCurrentUser();
         String key = firebaseUser.getEmail().replace(".", "");
-        reference = token.getDatabaseReference().child("Users/" + firebaseUser.getEmail()
+        chatReference = token.getDatabaseReference().child("Users/" + firebaseUser.getEmail()
                 .replace(".", "") + "/ChatIds");
-        reference.addValueEventListener(new ValueEventListener() {
+        chatReference.addChildEventListener(new ChildEventListener() {
             @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                dataSet.clear();
-                for (DataSnapshot childSnapshot : snapshot.getChildren()) {
-                    Log.i("Chat Fragment", "called here");
-                    ChatModel chatModel = childSnapshot.getValue(ChatModel.class);
-                    dataSet.add(chatModel);
-                }
-                adapter.setDataSet(dataSet);
+            public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+                String email = snapshot.child("sender").getValue(String.class);
+                String id = snapshot.child("id").getValue(String.class);
+                ChatModel model = new ChatModel(email, id);
+
+                token.getDatabaseReference().child("Convos/" + model.getID())
+                        .addValueEventListener(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                for(ChatModel cm:dataSet){
+                                    if(cm.getID()==model.getID()){
+                                        dataSet.remove(cm);
+                                        break;
+                                    }
+                                }
+                                dataSet.add(0, model);
+                                adapter.notifyDataSetChanged();
+                            }
+
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError error) {
+
+                            }
+                        });
+                adapter.notifyDataSetChanged();
+            }
+
+
+            @Override
+            public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String
+                    previousChildName) {
+
+            }
+
+            @Override
+            public void onChildRemoved(@NonNull DataSnapshot snapshot) {
+
+            }
+
+            @Override
+            public void onChildMoved(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+
             }
 
             @Override
@@ -81,14 +114,20 @@ public class ChatFragment extends Fragment implements FirebaseRecyclerViewCallba
         });
 
         chatRv = root.findViewById(R.id.chat_rv);
-        adapter = new UpdateChatAdapter(this);
+        adapter = new
+
+                UpdateChatAdapter(this);
+        adapter.setDataSet(dataSet);
         chatRv.setAdapter(adapter);
-        chatRv.setLayoutManager(new LinearLayoutManager(getContext()));
+        chatRv.setLayoutManager(new
+
+                LinearLayoutManager(getContext()));
     }
 
     @Override
     public void onClickListener(ChatModel model) {
         Log.i("Chat Fragment", "Request for new fragment");
+        if (model.getID() == null) Log.i("Chat Id", "null");
         chatActivity.addChatScreen(model);
     }
 }

@@ -9,14 +9,14 @@
     <EditText
         android:id="@+id/verfication_text"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/widget_recommended_height"
+        android:layout_height="@dimen/_48dp"
         android:layout_gravity="center"
-        android:layout_marginStart="@dimen/widgets_margin_start"
-        android:layout_marginEnd="@dimen/widgets_margin_end"
+        android:layout_marginStart="@dimen/_16dp"
+        android:layout_marginEnd="@dimen/_16dp"
         android:background="@drawable/widgets_background"
         android:hint="@string/verification_hint"
         android:textAlignment="center"
         android:textColorHint="@color/white"
-        android:textSize="@dimen/widgets_text_size" />
+        android:textSize="@dimen/_17sp" />
 
 </FrameLayout>

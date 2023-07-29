@@ -3,25 +3,25 @@
 
     <style name="widget_edit_text_style">
         <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">@dimen/widget_recommended_height</item>
-        <item name="android:layout_marginStart">@dimen/widgets_margin_start</item>
-        <item name="android:layout_marginTop">@dimen/widgets_margin_top</item>
-        <item name="android:layout_marginEnd">@dimen/widgets_margin_end</item>
+        <item name="android:layout_height">@dimen/_48dp</item>
+        <item name="android:layout_marginStart">@dimen/_16dp</item>
+        <item name="android:layout_marginTop">@dimen/_16dp</item>
+        <item name="android:layout_marginEnd">@dimen/_16dp</item>
         <item name="android:background">@drawable/widgets_background</item>
 
         <item name="android:gravity">center</item>
         <item name="android:padding">@dimen/widgets_padding</item>
         <item name="android:textColorHint">@color/white</item>
-        <item name="android:textSize">@dimen/widgets_text_size</item>
+        <item name="android:textSize">@dimen/_17sp</item>
         <item name="android:textColor">@color/white</item>
     </style>
 
     <style name="widget_button_style">
         <item name="android:background">@drawable/btn_reg_background</item>
-        <item name="android:layout_height">@dimen/widget_recommended_height</item>
+        <item name="android:layout_height">@dimen/_48dp</item>
         <item name="android:layout_gravity">center</item>
-        <item name="android:layout_marginTop">@dimen/widgets_margin_top</item>
-        <item name="android:textSize">@dimen/widgets_text_size</item>
+        <item name="android:layout_marginTop">@dimen/_16dp</item>
+        <item name="android:textSize">@dimen/_17sp</item>
     </style>
 
     <style name="oppsite_chat_view">

@@ -44,7 +44,6 @@ public class ChatService extends Service {
         thread.start();
         serviceLooper = thread.getLooper();
         serviceHandler = new ServiceHandler(serviceLooper);
-
     }
 
     @Override

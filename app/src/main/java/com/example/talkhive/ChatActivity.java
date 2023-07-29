@@ -13,6 +13,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import com.example.talkhive.utilities.adapters.ViewPagerAdapter;
+import com.example.talkhive.utilities.dialogs.ProfileUserDialog;
 import com.example.talkhive.utilities.model.ChatModel;
 import com.example.talkhive.utilities.model.UpdateUserModel;
 import com.google.android.material.tabs.TabLayout;
@@ -21,6 +22,7 @@ import com.google.android.material.tabs.TabLayoutMediator;
 public class ChatActivity extends AppCompatActivity {
     private static final String FRAGEMENT_CHAT = "Chat";
     private static final String FRAGMENT_USERS = "Users";
+    private static final String PROFILE_TAG = "Profile";
     private ViewPager2 viewPager;
     private TabLayout layout;
     private ViewPagerAdapter adapter;
@@ -54,6 +56,11 @@ public class ChatActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.profile:
+                ProfileUserDialog dialog = new ProfileUserDialog();
+                dialog.show(getSupportFragmentManager(), PROFILE_TAG);
+        }
         return super.onOptionsItemSelected(item);
     }
 
@@ -64,7 +71,7 @@ public class ChatActivity extends AppCompatActivity {
     }
 
     public void addChatScreen(final ChatModel model) {
-        Log.i("Hello",model.getSender());
+        Log.i("Hello", model.getSender());
         Intent intent = new Intent(this, ChatScreen.class);
         intent.putExtra("CHAT_DETAILS", model);
         startActivity(intent);
