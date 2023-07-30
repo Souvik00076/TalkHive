@@ -52,3 +52,9 @@
 
 # Day 13
 1)Users will updated in the ChatFragment now.
+
+# Day 14
+1)Users can remove ,add new contacts..
+2)Chat item deletion functionality added
+3)Facebook messenger type time stamp added.
+
