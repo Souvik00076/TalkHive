@@ -7,9 +7,9 @@ import androidx.annotation.NonNull;
 import com.example.talkhive.utilities.interfaces.FirebaseCallbacks;
 import com.example.talkhive.utilities.model.UpdateUserModel;
 import com.example.talkhive.utilities.model.UserToken;
-import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.firebase.auth.FirebaseUser;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -17,13 +17,13 @@ import com.google.firebase.database.ValueEventListener;
 
 public class FirebaseUtilities {
     private static final String CLASS_TAG = "FirebaseUtilities";
-    private static UserToken model = UserToken.getInstance();
+    private static UserToken token = UserToken.getInstance();
 
     public static void updateUser(final UpdateUserModel userModel) {
-        final String ownerEmail = model.getAuth().getCurrentUser().getEmail()
+        final String ownerEmail = token.getAuth().getCurrentUser().getEmail()
                 .replace(".", "");
         final String recipientEmail = userModel.getEmail().replace(".", "");
-        model.getDatabaseReference().
+        token.getDatabaseReference().
                 child("Users/" + ownerEmail + "/contacts/" + recipientEmail)
                 .addValueEventListener(new ValueEventListener() {
                     @Override
@@ -31,7 +31,7 @@ public class FirebaseUtilities {
                         if (snapshot.exists()) {
                             return;
                         }
-                        model.getDatabaseReference().child("Users/" +
+                        token.getDatabaseReference().child("Users/" +
                                 recipientEmail + "/contacts/" + ownerEmail).addValueEventListener(new ValueEventListener() {
                             @Override
                             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -59,7 +59,7 @@ public class FirebaseUtilities {
 
     private static void addUser(final UpdateUserModel userModel, final
     String ownerKey, final String recipientKey) {
-        model.getDatabaseReference().child("Users/" + ownerKey + "/contacts/" + recipientKey)
+        token.getDatabaseReference().child("Users/" + ownerKey + "/contacts/" + recipientKey)
                 .setValue(userModel).addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void unused) {
@@ -70,9 +70,9 @@ public class FirebaseUtilities {
 
     public static void getFlag(FirebaseCallbacks callback,
                                final String recieverKey) {
-        final String ownerKey = model.getAuth().getCurrentUser().getEmail()
+        final String ownerKey = token.getAuth().getCurrentUser().getEmail()
                 .replace(".", "");
-        model.getDatabaseReference().child("Users/" + ownerKey + "/contacts/" + recieverKey)
+        token.getDatabaseReference().child("Users/" + ownerKey + "/contacts/" + recieverKey)
                 .addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -88,7 +88,7 @@ public class FirebaseUtilities {
                         } else {
                             // ChatId not found in contacts, check in requests
                             Log.i("first event", " called not found");
-                            model.getDatabaseReference().child("Users/" + ownerKey + "/requests/" + recieverKey)
+                            token.getDatabaseReference().child("Users/" + ownerKey + "/requests/" + recieverKey)
                                     .addListenerForSingleValueEvent(new ValueEventListener() {
                                         @Override
                                         public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -97,7 +97,7 @@ public class FirebaseUtilities {
                                             if (snapshot.hasChild("chatId")) {
                                                 value = snapshot.child("chatId").getValue(String.class);
                                             }
-                                            if(value!=null) Log.i("flag",value);
+                                            if (value != null) Log.i("flag", value);
                                             callback.onCallback(value);
                                         }
 
@@ -122,41 +122,39 @@ public class FirebaseUtilities {
                 });
 
     }
-    public static void updateUserHelper(UpdateUserModel uModel) {
-        final String nameToSearch = uModel.getEmail().replace(".", "");
-        FirebaseUser user = model.getAuth().getCurrentUser();
-        if (user != null) {
-            Log.i(CLASS_TAG, "Called Here");
-            final String userId = user.getEmail().replace(".", "");
-            DatabaseReference databaseReference = model.getDatabaseReference();
-            databaseReference.child("Users/" + nameToSearch).addValueEventListener(new ValueEventListener() {
-                @Override
-                public void onDataChange(@NonNull DataSnapshot snapshot) {
-                    if (snapshot.exists()) {
-                        Log.i(CLASS_TAG, "User Exist");
-                        databaseReference.child("Users/"+userId+"/contacts/"+ uModel.getEmail().replace(".",""))
-                                .setValue(uModel).addOnSuccessListener(new OnSuccessListener<Void>() {
-                                    @Override
-                                    public void onSuccess(Void unused) {
-                                        Log.i(CLASS_TAG,"Success in add user");
-                                    }
-                                }).addOnFailureListener(new OnFailureListener() {
-                                    @Override
-                                    public void onFailure(@NonNull Exception e) {
-                                        Log.i(CLASS_TAG,"Failure to add user");
-                                    }
-                                });
+
+    public static void deleteUserFromContact(final UpdateUserModel model) {
+        DatabaseReference reference = token.getDatabaseReference()
+                .child("Users/" + token.getAuth().getCurrentUser()
+                        .getEmail().replace(".", "")
+                        + "/contacts/" + model.getEmail().replace(".", ""));
+
+        reference.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for (DataSnapshot childSnapShot : snapshot.getChildren()) {
+                    System.out.println("is it " + snapshot.getKey());
+                    System.out.println("key : " + model.getEmail());
+                    System.out.println(snapshot.getKey()==model.getEmail());
+                    if (snapshot.getKey().equals( model.getEmail().replace(".", ""))) {
+                        Log.i("deleteUserFromContact", " deleted");
+                        childSnapShot.getRef().removeValue().addOnCompleteListener(new OnCompleteListener<Void>() {
+                            @Override
+                            public void onComplete(@NonNull Task<Void> task) {
+                                if (task.isSuccessful())
+                                    Log.i("User item with ", model.getEmail() + " deleted");
+                            }
+                        });
 
                     }
                 }
+            }
 
-                @Override
-                public void onCancelled(@NonNull DatabaseError error) {
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
 
-                }
-            });
-        }
-
+            }
+        });
     }
 
 }

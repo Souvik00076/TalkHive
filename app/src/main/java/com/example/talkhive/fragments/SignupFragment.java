@@ -1,8 +1,8 @@
 package com.example.talkhive.fragments;
 
-import static com.example.talkhive.utilities.VerificationUtilities.checkEqualityPassword;
-import static com.example.talkhive.utilities.VerificationUtilities.replaceInMain;
-import static com.example.talkhive.utilities.VerificationUtilities.verifyEmail;
+import static com.example.talkhive.utilities.GeneralUtils.checkEqualityPassword;
+import static com.example.talkhive.utilities.GeneralUtils.replaceInMain;
+import static com.example.talkhive.utilities.GeneralUtils.verifyEmail;
 import static com.example.talkhive.utilities.firebaseutils.FirebaseHttpUtils.registerUser;
 
 import android.content.Context;
@@ -18,8 +18,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import androidx.activity.result.ActivityResultCallback;

@@ -6,7 +6,6 @@ import android.os.Handler;
 import android.os.HandlerThread;
 import android.os.IBinder;
 import android.os.Looper;
-
 import android.os.Message;
 import android.os.Process;
 import android.util.Log;
@@ -15,13 +14,14 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.example.talkhive.utilities.firebaseutils.FirebaseChatUtils;
+import com.example.talkhive.utilities.model.ChatModel;
 import com.example.talkhive.utilities.model.MessageModel;
 
-public class ChatService extends Service {
+public class DeleteChatItemService extends Service {
     private Looper serviceLooper;
-    private ChatService.ServiceHandler serviceHandler;
-    private static final String SERVICE_CLASS_TAG = ChatService.class.getName().toString();
-    private static MessageModel modelObj;
+    private DeleteChatItemService.ServiceHandler serviceHandler;
+    private static final String SERVICE_CLASS_TAG = DeleteChatItemService.class.getName();
+    private static ChatModel modelObj;
 
     private final class ServiceHandler extends Handler {
 
@@ -32,7 +32,8 @@ public class ChatService extends Service {
         @Override
         public void handleMessage(@NonNull Message msg) {
             Log.i(SERVICE_CLASS_TAG, "Firebase user updation thread");
-            FirebaseChatUtils.writeMessage(modelObj);
+            Log.i("In onlong", modelObj.getID());
+            FirebaseChatUtils.deleteChatId(modelObj);
             stopSelf(msg.arg1);
         }
     }
@@ -43,15 +44,15 @@ public class ChatService extends Service {
                 Process.THREAD_PRIORITY_BACKGROUND);
         thread.start();
         serviceLooper = thread.getLooper();
-        serviceHandler = new ServiceHandler(serviceLooper);
+        serviceHandler = new DeleteChatItemService.ServiceHandler(serviceLooper);
     }
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         Message msg = serviceHandler.obtainMessage();
         msg.arg1 = startId;
-        modelObj = (MessageModel) intent.getSerializableExtra("Message");
-        Log.i(SERVICE_CLASS_TAG,"HI");
+        modelObj = (ChatModel) intent.getParcelableExtra("Message");
+        Log.i(SERVICE_CLASS_TAG, "Called");
         serviceHandler.sendMessage(msg);
         return START_STICKY;
     }
@@ -66,5 +67,4 @@ public class ChatService extends Service {
     public void onDestroy() {
         super.onDestroy();
     }
-
 }

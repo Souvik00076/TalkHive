@@ -10,6 +10,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.talkhive.R;
+import com.example.talkhive.utilities.GeneralUtils;
 import com.example.talkhive.utilities.model.MessageModel;
 import com.example.talkhive.utilities.model.UserToken;
 
@@ -65,16 +66,18 @@ public class UpdateChatScreenAdapter extends RecyclerView.Adapter<UpdateChatScre
             getSenderMessageTime.setVisibility(View.GONE);
             final String sender = model.getSenderId();
             final String owner = detailsModel.getAuth().getCurrentUser().getEmail();
+            final String timeStamp= GeneralUtils.convertUnixTimeStamp(model.getTimeStamp());
             if (sender.equals(owner)) {
                 senderMessage.setVisibility(View.VISIBLE);
                 getSenderMessageTime.setVisibility(View.VISIBLE);
                 senderMessage.setText(model.getMessage());
-                getSenderMessageTime.setText(model.getTimeStamp() + "");
+                getSenderMessageTime.setText(timeStamp);
             } else {
                 recieverMessage.setVisibility(View.VISIBLE);
                 recieverMessageTime.setVisibility(View.VISIBLE);
                 recieverMessage.setText(model.getMessage());
-                recieverMessageTime.setText(model.getTimeStamp() + "");
+                recieverMessageTime.setText(timeStamp);
+
             }
         }
     }

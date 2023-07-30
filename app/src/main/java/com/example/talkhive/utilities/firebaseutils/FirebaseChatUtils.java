@@ -5,7 +5,6 @@ import android.util.Log;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-import com.example.talkhive.ChatScreen;
 import com.example.talkhive.utilities.interfaces.ChatCallback;
 import com.example.talkhive.utilities.interfaces.FirebaseCallbacks;
 import com.example.talkhive.utilities.model.ChatModel;
@@ -20,16 +19,14 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.ValueEventListener;
 
-import java.util.ArrayList;
-
 public class FirebaseChatUtils {
-    private static UserToken model = UserToken.getInstance();
+    private static UserToken token = UserToken.getInstance();
     private static final String CLASS_NAME = "Firebase Chat Utils";
 
     public static void writeMessage(final MessageModel message) {
         final String receiverKey = message.getRecieverId().replace(".", "");
         final String ownerKey = message.getSenderId().replace(".", "");
-        DatabaseReference referenceChatIds = model.getDatabaseReference().child("Users/"
+        DatabaseReference referenceChatIds = token.getDatabaseReference().child("Users/"
                 + ownerKey + "/ChatIds");
         FirebaseCallbacks callback = new FirebaseCallbacks() {
             @Override
@@ -55,7 +52,29 @@ public class FirebaseChatUtils {
                     };
                     Log.i("create ChatId", "Called");
                     createChatId(receiverKey, ownerKey, chatCallback);
-                } else writeMessageToConvo(message, flag);
+                } else {
+                    referenceChatIds.addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+                            for (DataSnapshot childSnapShot : snapshot.getChildren()) {
+
+                                if (childSnapShot.hasChild("id") &&
+                                        childSnapShot.child("id").getValue(String.class).equals(flag)) {
+                                    Log.i("YES", flag);
+                                    return;
+                                }
+                            }
+                            String flag2 = receiverKey.substring(0, receiverKey.indexOf('@') + 1) + "gmail.com";
+                            addToChatIds(new ChatModel(flag2, flag), referenceChatIds);
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError error) {
+
+                        }
+                    });
+                    writeMessageToConvo(message, flag);
+                }
 
 
             }
@@ -68,11 +87,11 @@ public class FirebaseChatUtils {
 
     private static void createChatId(final String recieverKey,
                                      final String ownerKey, ChatCallback callback) {
-        String chatId = model.getDatabaseReference()
+        String chatId = token.getDatabaseReference()
                 .child("Convos").push().getKey();
-        DatabaseReference referenceRequest = model.getDatabaseReference().child("Users/" + recieverKey
+        DatabaseReference referenceRequest = token.getDatabaseReference().child("Users/" + recieverKey
                 + "/requests/" + ownerKey + "/chatId");
-        DatabaseReference referenceContacts = model.getDatabaseReference().child("Users/" + ownerKey
+        DatabaseReference referenceContacts = token.getDatabaseReference().child("Users/" + ownerKey
                 + "/contacts/" + recieverKey + "/chatId");
 
         referenceRequest.setValue(chatId).addOnCompleteListener(new OnCompleteListener<Void>() {
@@ -99,7 +118,7 @@ public class FirebaseChatUtils {
 
     private static void writeMessageToConvo(final MessageModel message,
                                             final String flag) {
-        DatabaseReference reference = model.getDatabaseReference().child("Convos/" + flag);
+        DatabaseReference reference = token.getDatabaseReference().child("Convos/" + flag);
         String key = reference.push().getKey();
         reference.child(key).setValue(message).
                 addOnSuccessListener(new OnSuccessListener<Void>() {
@@ -112,7 +131,7 @@ public class FirebaseChatUtils {
 
 
     public static void loadChat(final String chatId, ChatCallback callback) {
-        DatabaseReference reference = model.getDatabaseReference().child("Convos/" + chatId);
+        DatabaseReference reference = token.getDatabaseReference().child("Convos/" + chatId);
         reference.addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
@@ -133,6 +152,35 @@ public class FirebaseChatUtils {
             @Override
             public void onChildMoved(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
 
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+    }
+
+    public static void deleteChatId(final ChatModel model) {
+        final String ID = model.getID();
+        DatabaseReference reference = token.getDatabaseReference()
+                .child("Users/" + token.getAuth().getCurrentUser()
+                        .getEmail().replace(".", "")
+                        + "/ChatIds");
+        reference.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for (DataSnapshot childSnapShot : snapshot.getChildren()) {
+                    if (childSnapShot.hasChild("id") && childSnapShot.child("id").getValue(String.class)
+                            .equals(ID))
+                        childSnapShot.getRef().removeValue().addOnCompleteListener(new OnCompleteListener<Void>() {
+                            @Override
+                            public void onComplete(@NonNull Task<Void> task) {
+                                if (task.isSuccessful())
+                                    Log.i("Chat Id " + model.getID(), "removed");
+                            }
+                        });
+                }
             }
 
             @Override

@@ -1,7 +1,5 @@
 package com.example.talkhive;
 
-import static com.example.talkhive.utilities.firebaseutils.FirebaseChatUtils.loadChat;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
@@ -23,12 +21,11 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.example.talkhive.utilities.adapters.UpdateChatScreenAdapter;
-import com.example.talkhive.utilities.interfaces.ChatCallback;
 import com.example.talkhive.utilities.model.ChatModel;
 import com.example.talkhive.utilities.model.MessageModel;
 import com.example.talkhive.utilities.model.UpdateUserModel;
 import com.example.talkhive.utilities.model.UserToken;
-import com.example.talkhive.utilities.services.ChatService;
+import com.example.talkhive.utilities.services.WriteChatService;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
@@ -105,7 +102,7 @@ public class ChatScreen extends AppCompatActivity {
                             System.currentTimeMillis() / 1000
                     );
                     sendMessageEt.getText().clear();
-                    Intent intent = new Intent(ChatScreen.this, ChatService.class);
+                    Intent intent = new Intent(ChatScreen.this, WriteChatService.class);
                     intent.putExtra("Message", message);
                     startService(intent);
                 }
@@ -126,6 +123,7 @@ public class ChatScreen extends AppCompatActivity {
         adapter = new UpdateChatScreenAdapter(this);
         dataSet = new ArrayList<>();
         chatView.setAdapter(adapter);
+        adapter.setDataSet(dataSet);
         chatView.setLayoutManager(new LinearLayoutManager(this));
         reference = detailsModel.getDatabaseReference().child("Users/" +
                 auth.getCurrentUser().getEmail().replace(".", "") + "/contacts/"
@@ -135,7 +133,7 @@ public class ChatScreen extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if (snapshot.exists()) {
                     chatId = snapshot.child("chatId").getValue(String.class);
-
+                    /*
                     detailsModel.getDatabaseReference().child("Convos/" + chatId).addListenerForSingleValueEvent(new ValueEventListener() {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -146,7 +144,6 @@ public class ChatScreen extends AppCompatActivity {
                             }
                             adapter.setDataSet(dataSet);
                             adapter.notifyDataSetChanged();
-
                             chatView.smoothScrollToPosition(Math.max(adapter.getItemCount() - 1, 0));
                         }
 
@@ -155,6 +152,8 @@ public class ChatScreen extends AppCompatActivity {
 
                         }
                     });
+                */
+
                     detailsModel.getDatabaseReference().child("Convos/" + chatId)
                             .addChildEventListener(new ChildEventListener() {
                                 @Override
@@ -162,7 +161,7 @@ public class ChatScreen extends AppCompatActivity {
                                     Log.i("On Child Added", "not called?");
                                     MessageModel messageModel = snapshot.getValue(MessageModel.class);
                                     dataSet.add(messageModel);
-                                    adapter.notifyItemInserted(dataSet.size() - 1);
+                                    adapter.notifyDataSetChanged();
                                     chatView.scrollToPosition(adapter.getItemCount() - 1);
                                 }
 

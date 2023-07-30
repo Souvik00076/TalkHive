@@ -1,12 +1,11 @@
 package com.example.talkhive.fragments;
 
 
-import static com.example.talkhive.utilities.VerificationUtilities.replaceInMain;
+import static com.example.talkhive.utilities.GeneralUtils.replaceInMain;
 import static com.example.talkhive.utilities.firebaseutils.FirebaseHttpUtils.loginUser;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.os.Environment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,7 +13,6 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.FrameLayout;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -28,13 +26,7 @@ import com.example.talkhive.utilities.ErrorCodes;
 import com.example.talkhive.utilities.interfaces.GeneralCallbacks;
 import com.example.talkhive.utilities.model.User;
 import com.example.talkhive.utilities.model.UserToken;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
-
-import java.io.File;
 
 public class LoginFragment extends Fragment {
 

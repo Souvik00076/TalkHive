@@ -61,7 +61,7 @@ public class UpdateChatAdapter extends RecyclerView.Adapter<UpdateChatAdapter.Ch
         return dataSet.size();
     }
 
-    class ChatHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+    class ChatHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnLongClickListener {
         private AppCompatImageView dpView;
         private TextView recipientName, timeStamp;
         private FirebaseRecyclerViewCallbacks listener;
@@ -72,6 +72,7 @@ public class UpdateChatAdapter extends RecyclerView.Adapter<UpdateChatAdapter.Ch
             super(itemView);
             this.listener = listener;
             itemView.setOnClickListener(this);
+            itemView.setOnLongClickListener(this);
             dpView = itemView.findViewById(R.id.chat_bubble_user_dp);
             recipientName = itemView.findViewById(R.id.name_tv);
             timeStamp = itemView.findViewById(R.id.time_stamp);
@@ -80,6 +81,17 @@ public class UpdateChatAdapter extends RecyclerView.Adapter<UpdateChatAdapter.Ch
         @Override
         public void onClick(View view) {
             listener.onClickListener(dataSet.get(getAdapterPosition()));
+        }
+
+        @Override
+        public boolean onLongClick(View view) {
+            String name=dataSet.get(getAdapterPosition()).getSender();
+            ChatModel model=dataSet.get(getAdapterPosition());
+
+            boolean flag = dataSet.remove(dataSet.get(getAdapterPosition()));
+            notifyDataSetChanged();
+            listener.onDeleteListener(model,name);
+            return flag;
         }
 
         public void bindView(final ChatModel model) {

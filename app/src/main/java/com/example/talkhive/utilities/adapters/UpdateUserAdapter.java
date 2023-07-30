@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.example.talkhive.R;
 import com.example.talkhive.fragments.UsersFragment;
+import com.example.talkhive.utilities.interfaces.FirebaseRecyclerViewCallbacks;
 import com.example.talkhive.utilities.model.UpdateUserModel;
 import com.example.talkhive.utilities.model.UserToken;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -28,17 +29,13 @@ public class UpdateUserAdapter extends RecyclerView.Adapter<UpdateUserAdapter.Us
     private ArrayList<UpdateUserModel> dataSet;
     private final UsersFragment context;
 
-    public interface userItemClickListener {
-        void onClick(UpdateUserModel model);
-    }
-
-    private userItemClickListener listener;
+    private FirebaseRecyclerViewCallbacks listener;
 
     public UpdateUserAdapter(Fragment context) {
         this.context = (UsersFragment) context;
         dataSet = new ArrayList<>();
         detailsModel = UserToken.getInstance();
-        listener = (userItemClickListener) context;
+        listener = (FirebaseRecyclerViewCallbacks) context;
     }
 
     @NonNull
@@ -63,24 +60,35 @@ public class UpdateUserAdapter extends RecyclerView.Adapter<UpdateUserAdapter.Us
         this.dataSet = dataSet;
     }
 
-    public class UserHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+    public class UserHolder extends RecyclerView.ViewHolder implements View.OnClickListener
+            , View.OnLongClickListener {
         private AppCompatImageView displayUserView;
         private final TextView displayNameView;
         private final TextView displayEmailView;
-        private userItemClickListener listener;
+        private FirebaseRecyclerViewCallbacks listener;
 
-        public UserHolder(@NonNull View itemView, final userItemClickListener listener) {
+        public UserHolder(@NonNull View itemView, final FirebaseRecyclerViewCallbacks listener) {
             super(itemView);
             displayUserView = itemView.findViewById(R.id.chat_bubble_user_dp);
             displayNameView = itemView.findViewById(R.id.name_tv);
             displayEmailView = itemView.findViewById(R.id.email_tv);
             this.listener = listener;
             itemView.setOnClickListener(this);
+            itemView.setOnLongClickListener(this);
         }
 
         @Override
         public void onClick(View view) {
-            listener.onClick(dataSet.get(getAdapterPosition()));
+            listener.onClickListener(dataSet.get(getAdapterPosition()));
+        }
+
+        @Override
+        public boolean onLongClick(View view) {
+            UpdateUserModel model = dataSet.get(getAdapterPosition());
+            boolean flag = dataSet.remove(dataSet.get(getAdapterPosition()));
+            listener.onDeleteListener(model);
+            notifyDataSetChanged();
+            return flag;
         }
 
         public void bindView(final UpdateUserModel model) {

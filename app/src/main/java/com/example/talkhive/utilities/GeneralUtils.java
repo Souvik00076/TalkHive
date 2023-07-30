@@ -17,9 +17,14 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.ValueEventListener;
 
-public class VerificationUtilities {
+import java.time.Instant;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
+
+public class GeneralUtils {
     private static final UserToken utilities = UserToken.getInstance();
-    private static final String CLASS_TAG = VerificationUtilities.class.getName();
+    private static final String CLASS_TAG = GeneralUtils.class.getName();
     final static String emailPattern = "^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}$";
 
     public static boolean verifyEmail(final String email) {
@@ -72,5 +77,38 @@ public class VerificationUtilities {
 
     }
 
+    public static String convertUnixTimeStamp(long unixTimeStamp) {
+        Instant instant = Instant.ofEpochSecond(unixTimeStamp);
+        LocalDateTime dateTime = LocalDateTime.ofInstant(instant, ZoneId.systemDefault());
+        LocalDateTime now = LocalDateTime.now();
+
+        long diffInSeconds = java.time.Duration.between(dateTime, now).getSeconds();
+
+        if (diffInSeconds < 60) {
+            return "Just now";
+        } else if (diffInSeconds < 3600) {
+            long minutesAgo = diffInSeconds / 60;
+            return minutesAgo + " minute" + (minutesAgo > 1 ? "s" : "") + " ago";
+        } else if (diffInSeconds < 86400) {
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("hh:mm a");
+            return "" + dateTime.format(formatter);
+        } else if (diffInSeconds < 604800) {
+            long daysAgo = diffInSeconds / 86400;
+            if (daysAgo == 1) {
+                return "Yesterday";
+            } else {
+                return daysAgo + " days ago";
+            }
+        } else if (diffInSeconds < 2419200) {
+            long weeksAgo = diffInSeconds / 604800;
+            return weeksAgo + " week" + (weeksAgo > 1 ? "s" : "") + " ago";
+        } else if (diffInSeconds < 29030400) {
+            long monthsAgo = diffInSeconds / 2419200;
+            return monthsAgo + " month" + (monthsAgo > 1 ? "s" : "") + " ago";
+        } else {
+            long yearsAgo = diffInSeconds / 29030400;
+            return yearsAgo + " year" + (yearsAgo > 1 ? "s" : "") + " ago";
+        }
+    }
 
 }

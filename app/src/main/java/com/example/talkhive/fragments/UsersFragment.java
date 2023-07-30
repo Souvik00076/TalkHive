@@ -1,6 +1,7 @@
 package com.example.talkhive.fragments;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -13,13 +14,18 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.example.talkhive.ChatActivity;
 import com.example.talkhive.R;
 import com.example.talkhive.utilities.adapters.UpdateUserAdapter;
 import com.example.talkhive.utilities.dialogs.AddUserDialog;
+import com.example.talkhive.utilities.interfaces.FirebaseRecyclerViewCallbacks;
+import com.example.talkhive.utilities.model.ChatModel;
 import com.example.talkhive.utilities.model.UpdateUserModel;
 import com.example.talkhive.utilities.model.UserToken;
+import com.example.talkhive.utilities.services.DeleteChatItemService;
+import com.example.talkhive.utilities.services.DeleteUserItemService;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.ChildEventListener;
@@ -29,7 +35,7 @@ import com.google.firebase.database.DatabaseReference;
 
 import java.util.ArrayList;
 
-public class UsersFragment extends Fragment implements UpdateUserAdapter.userItemClickListener {
+public class UsersFragment extends Fragment implements FirebaseRecyclerViewCallbacks {
     private FloatingActionButton addPersonButton;
     private RecyclerView usersRv;
     private static final String SHOW_USER_TAG = "Show Users";
@@ -78,7 +84,7 @@ public class UsersFragment extends Fragment implements UpdateUserAdapter.userIte
 
             @Override
             public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-                Log.i("Users Fragment",snapshot.getValue(UpdateUserModel.class).getEmail()+" added");
+                Log.i("Users Fragment", snapshot.getValue(UpdateUserModel.class).getEmail() + " added");
                 dataSet.add(snapshot.getValue(UpdateUserModel.class));
                 adapter.setDataSet(dataSet);
                 adapter.notifyDataSetChanged();
@@ -108,7 +114,27 @@ public class UsersFragment extends Fragment implements UpdateUserAdapter.userIte
     }
 
     @Override
-    public void onClick(final UpdateUserModel model) {
+    public void onClickListener(ChatModel model) {
+
+    }
+
+    @Override
+    public void onDeleteListener(ChatModel model, String name) {
+
+    }
+
+    @Override
+    public void onClickListener(UpdateUserModel model) {
         chatActivity.addChatScreen(model);
+    }
+
+    @Override
+    public void onDeleteListener(UpdateUserModel model) {
+        Intent intent = new Intent(chatActivity, DeleteUserItemService.class);
+        intent.putExtra("Message", model);
+        chatActivity.startService(intent);
+        Log.i("In onlong", model.getName());
+        if (model.getName() != null)
+            Toast.makeText(chatActivity, model.getName() + " Removed Succefully!!", Toast.LENGTH_SHORT).show();
     }
 }

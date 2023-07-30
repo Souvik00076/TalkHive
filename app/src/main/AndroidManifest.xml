@@ -35,7 +35,13 @@
             android:name=".utilities.services.UpdateUserService"
             android:exported="false" />
         <service
-            android:name=".utilities.services.ChatService"
+            android:name=".utilities.services.WriteChatService"
+            android:exported="false" />
+        <service
+            android:name=".utilities.services.DeleteChatItemService"
+            android:exported="false" />
+        <service
+            android:name=".utilities.services.DeleteUserItemService"
             android:exported="false" />
     </application>
 

@@ -1,6 +1,7 @@
 package com.example.talkhive.fragments;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -13,6 +14,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.example.talkhive.ChatActivity;
 import com.example.talkhive.R;
@@ -20,7 +22,10 @@ import com.example.talkhive.utilities.adapters.UpdateChatAdapter;
 import com.example.talkhive.utilities.interfaces.FirebaseRecyclerViewCallbacks;
 import com.example.talkhive.utilities.model.ChatModel;
 
+import com.example.talkhive.utilities.model.UpdateUserModel;
 import com.example.talkhive.utilities.model.UserToken;
+import com.example.talkhive.utilities.services.DeleteChatItemService;
+import com.example.talkhive.utilities.services.WriteChatService;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
@@ -67,20 +72,24 @@ public class ChatFragment extends Fragment implements FirebaseRecyclerViewCallba
                 String email = snapshot.child("sender").getValue(String.class);
                 String id = snapshot.child("id").getValue(String.class);
                 ChatModel model = new ChatModel(email, id);
+                Log.i("error : ", model.getSender());
 
                 token.getDatabaseReference().child("Convos/" + model.getID())
                         .addValueEventListener(new ValueEventListener() {
                             @Override
                             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                                for(ChatModel cm:dataSet){
-                                    if(cm.getID()==model.getID()){
+                                for (ChatModel cm : dataSet) {
+                                    if (cm.getID() == model.getID()) {
                                         dataSet.remove(cm);
                                         break;
                                     }
                                 }
+
                                 dataSet.add(0, model);
                                 adapter.notifyDataSetChanged();
+                                Log.i("Dataset added", dataSet.size() + "");
                             }
+
 
                             @Override
                             public void onCancelled(@NonNull DatabaseError error) {
@@ -129,5 +138,25 @@ public class ChatFragment extends Fragment implements FirebaseRecyclerViewCallba
         Log.i("Chat Fragment", "Request for new fragment");
         if (model.getID() == null) Log.i("Chat Id", "null");
         chatActivity.addChatScreen(model);
+    }
+
+    @Override
+    public void onDeleteListener(ChatModel model, String name) {
+        Intent intent = new Intent(chatActivity, DeleteChatItemService.class);
+        intent.putExtra("Message", model);
+        chatActivity.startService(intent);
+        Log.i("In onlong", model.getID());
+        if (name != null)
+            Toast.makeText(chatActivity, name + " Removed Succefully!!", Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onClickListener(UpdateUserModel model) {
+
+    }
+
+    @Override
+    public void onDeleteListener(UpdateUserModel model) {
+
     }
 }
