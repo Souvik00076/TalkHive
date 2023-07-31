@@ -2,7 +2,6 @@ package com.example.talkhive;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.viewpager2.widget.ViewPager2;
 
@@ -20,9 +19,10 @@ import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
 
 public class ChatActivity extends AppCompatActivity {
-    private static final String FRAGEMENT_CHAT = "Chat";
+    private static final String FRAGMENT_CHAT = "Chats";
     private static final String FRAGMENT_USERS = "Users";
     private static final String PROFILE_TAG = "Profile";
+    private static final String FRAGMENT_REQUEST = "Requests";
     private ViewPager2 viewPager;
     private TabLayout layout;
     private ViewPagerAdapter adapter;
@@ -35,11 +35,10 @@ public class ChatActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat);
         init();
-
         new TabLayoutMediator(layout, viewPager, (tab, position) -> {
             switch (position) {
                 case 0:
-                    tab.setText(FRAGEMENT_CHAT);
+                    tab.setText(FRAGMENT_CHAT);
                     break;
                 case 1:
                     tab.setText(FRAGMENT_USERS);

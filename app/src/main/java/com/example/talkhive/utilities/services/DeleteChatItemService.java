@@ -31,7 +31,7 @@ public class DeleteChatItemService extends Service {
 
         @Override
         public void handleMessage(@NonNull Message msg) {
-            Log.i(SERVICE_CLASS_TAG, "Firebase user updation thread");
+            Log.i(SERVICE_CLASS_TAG, "Firebase chatItem deletion thread");
             Log.i("In onlong", modelObj.getID());
             FirebaseChatUtils.deleteChatId(modelObj);
             stopSelf(msg.arg1);

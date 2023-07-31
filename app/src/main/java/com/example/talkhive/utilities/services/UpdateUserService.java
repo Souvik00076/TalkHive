@@ -52,6 +52,7 @@ public class UpdateUserService extends Service {
     public int onStartCommand(Intent intent, int flags, int startId) {
         Message msg = serviceHandler.obtainMessage();
         msg.arg1 = startId;
+        Log.i("Update User service","started");
         modelObj = (UpdateUserModel) intent.getParcelableExtra("QUERY");
         serviceHandler.sendMessage(msg);
         return START_STICKY;
@@ -66,5 +67,6 @@ public class UpdateUserService extends Service {
     @Override
     public void onDestroy() {
         super.onDestroy();
+        Log.i("Update user service", "Called");
     }
 }

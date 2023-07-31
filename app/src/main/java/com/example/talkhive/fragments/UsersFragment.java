@@ -97,7 +97,7 @@ public class UsersFragment extends Fragment implements FirebaseRecyclerViewCallb
 
             @Override
             public void onChildRemoved(@NonNull DataSnapshot snapshot) {
-                //called when we delete a contact
+                Log.i("ON Delete ", "Called");
             }
 
             @Override

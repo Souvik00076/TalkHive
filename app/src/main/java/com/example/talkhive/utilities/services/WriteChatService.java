@@ -31,7 +31,7 @@ public class WriteChatService extends Service {
 
         @Override
         public void handleMessage(@NonNull Message msg) {
-            Log.i(SERVICE_CLASS_TAG, "Firebase user updation thread");
+            Log.i(SERVICE_CLASS_TAG, "Firebase chatItem updation thread");
             FirebaseChatUtils.writeMessage(modelObj);
             stopSelf(msg.arg1);
         }
@@ -51,7 +51,7 @@ public class WriteChatService extends Service {
         Message msg = serviceHandler.obtainMessage();
         msg.arg1 = startId;
         modelObj = (MessageModel) intent.getSerializableExtra("Message");
-        Log.i(SERVICE_CLASS_TAG,"HI");
+        Log.i(SERVICE_CLASS_TAG, "HI");
         serviceHandler.sendMessage(msg);
         return START_STICKY;
     }

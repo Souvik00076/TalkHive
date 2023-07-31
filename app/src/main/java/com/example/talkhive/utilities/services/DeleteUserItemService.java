@@ -30,7 +30,7 @@ public class DeleteUserItemService extends Service {
 
         @Override
         public void handleMessage(@NonNull Message msg) {
-            Log.i(SERVICE_CLASS_TAG, "Firebase user updation thread");
+            Log.i(SERVICE_CLASS_TAG, "Firebase user deletion thread");
             FirebaseUtilities.deleteUserFromContact(modelObj);
             stopSelf(msg.arg1);
         }
@@ -49,6 +49,7 @@ public class DeleteUserItemService extends Service {
     public int onStartCommand(Intent intent, int flags, int startId) {
         Message msg = serviceHandler.obtainMessage();
         msg.arg1 = startId;
+        Log.i("Delete User Item Service","Started");
         modelObj = intent.getParcelableExtra("Message");
         Log.i(SERVICE_CLASS_TAG, "Called");
         serviceHandler.sendMessage(msg);
@@ -64,5 +65,6 @@ public class DeleteUserItemService extends Service {
     @Override
     public void onDestroy() {
         super.onDestroy();
+        Log.i("Delete User Item Service","Destroyed");
     }
 }

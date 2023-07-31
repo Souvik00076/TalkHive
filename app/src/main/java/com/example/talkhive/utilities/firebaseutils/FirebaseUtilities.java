@@ -18,14 +18,13 @@ import com.google.firebase.database.ValueEventListener;
 public class FirebaseUtilities {
     private static final String CLASS_TAG = "FirebaseUtilities";
     private static UserToken token = UserToken.getInstance();
-
     public static void updateUser(final UpdateUserModel userModel) {
         final String ownerEmail = token.getAuth().getCurrentUser().getEmail()
                 .replace(".", "");
         final String recipientEmail = userModel.getEmail().replace(".", "");
         token.getDatabaseReference().
                 child("Users/" + ownerEmail + "/contacts/" + recipientEmail)
-                .addValueEventListener(new ValueEventListener() {
+                .addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
                         if (snapshot.exists()) {
@@ -37,7 +36,10 @@ public class FirebaseUtilities {
                             public void onDataChange(@NonNull DataSnapshot snapshot) {
                                 if (snapshot.exists()) {
                                     String chatId = snapshot.child("chatId").getValue(String.class);
-                                    if (chatId != null) userModel.setChatId(chatId);
+                                    if (chatId != null) {
+                                        Log.i("Again called","Yes");
+                                        userModel.setChatId(chatId);
+                                    }
                                 }
                                 addUser(userModel, ownerEmail, recipientEmail);
                             }
@@ -135,7 +137,7 @@ public class FirebaseUtilities {
                 for (DataSnapshot childSnapShot : snapshot.getChildren()) {
                     System.out.println("is it " + snapshot.getKey());
                     System.out.println("key : " + model.getEmail());
-                    System.out.println(snapshot.getKey()==model.getEmail());
+
                     if (snapshot.getKey().equals( model.getEmail().replace(".", ""))) {
                         Log.i("deleteUserFromContact", " deleted");
                         childSnapShot.getRef().removeValue().addOnCompleteListener(new OnCompleteListener<Void>() {

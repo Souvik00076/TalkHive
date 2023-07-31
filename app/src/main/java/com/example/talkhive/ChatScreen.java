@@ -1,5 +1,6 @@
 package com.example.talkhive;
 
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
@@ -43,7 +44,7 @@ public class ChatScreen extends AppCompatActivity {
     private FrameLayout buttonSend;
     private EditText sendMessageEt;
     private ProgressBar waitPbar;
-    private UserToken detailsModel;
+    private UserToken token;
     private FirebaseAuth auth;
     private UpdateUserModel model;
     private ChatModel model2;
@@ -53,10 +54,10 @@ public class ChatScreen extends AppCompatActivity {
     private DatabaseReference reference;
     private String recipientEmail, recipientName;
     private String chatId;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        token = UserToken.getInstance();
         setContentView(R.layout.chat_screen_activity);
         ActionBar actionBar = getSupportActionBar();
         if (null != actionBar) actionBar.hide();
@@ -65,16 +66,39 @@ public class ChatScreen extends AppCompatActivity {
         if (extras != null) {
             model = extras.getParcelable("USER_DETAILS");
             model2 = extras.getParcelable("CHAT_DETAILS");
+
             if (model != null) {
                 recipientEmail = model.getEmail();
                 recipientName = model.getName() == null ? model.getEmail() : model.getName();
             } else {
                 recipientEmail = model2.getSender();
                 recipientName = model2.getSender();
+                final String path="Users/" + token.getAuth().getCurrentUser()
+                        .getEmail().replace(".", "") +"/contacts/"+
+                        recipientEmail.replace(".", "");
+                DatabaseReference reference = token.getDatabaseReference().
+                        child(path);
+                Log.i("recipient path", path);
+                reference.addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+
+                        if (snapshot.hasChild("name"))
+                            recipientName = snapshot.child("name").getValue(String.class);
+                        else recipientName = model2.getSender();
+                        chatName.setText(recipientName);
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+
+                    }
+                });
+
             }
             init();
             chatName.setText(recipientName);
-            detailsModel.getImageReference().child(recipientEmail.replace(".", "") + "/dp.jpg")
+            token.getImageReference().child(recipientEmail.replace(".", "") + "/dp.jpg")
                     .getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                         @Override
                         public void onSuccess(Uri uri) {
@@ -116,16 +140,16 @@ public class ChatScreen extends AppCompatActivity {
         chatName = (TextView) findViewById(R.id.chat_name);
         buttonSend = (FrameLayout) findViewById(R.id.button_send);
         sendMessageEt = (EditText) findViewById(R.id.send_msg_it);
-        detailsModel = UserToken.getInstance();
+
         waitPbar = (ProgressBar) findViewById(R.id.wait_chat);
-        auth = detailsModel.getAuth();
+        auth = token.getAuth();
         chatView = findViewById(R.id.chat_view);
         adapter = new UpdateChatScreenAdapter(this);
         dataSet = new ArrayList<>();
         chatView.setAdapter(adapter);
         adapter.setDataSet(dataSet);
         chatView.setLayoutManager(new LinearLayoutManager(this));
-        reference = detailsModel.getDatabaseReference().child("Users/" +
+        reference = token.getDatabaseReference().child("Users/" +
                 auth.getCurrentUser().getEmail().replace(".", "") + "/contacts/"
                 + recipientEmail.replace(".", ""));
         reference.addValueEventListener(new ValueEventListener() {
@@ -133,31 +157,13 @@ public class ChatScreen extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if (snapshot.exists()) {
                     chatId = snapshot.child("chatId").getValue(String.class);
-                    /*
-                    detailsModel.getDatabaseReference().child("Convos/" + chatId).addListenerForSingleValueEvent(new ValueEventListener() {
-                        @Override
-                        public void onDataChange(@NonNull DataSnapshot snapshot) {
-                            dataSet.clear();
-                            for (DataSnapshot childSnapshot : snapshot.getChildren()) {
-                                MessageModel messageModel = childSnapshot.getValue(MessageModel.class);
-                                dataSet.add(messageModel);
-                            }
-                            adapter.setDataSet(dataSet);
-                            adapter.notifyDataSetChanged();
-                            chatView.smoothScrollToPosition(Math.max(adapter.getItemCount() - 1, 0));
-                        }
 
-                        @Override
-                        public void onCancelled(@NonNull DatabaseError error) {
 
-                        }
-                    });
-                */
-
-                    detailsModel.getDatabaseReference().child("Convos/" + chatId)
+                    token.getDatabaseReference().child("Convos/" + chatId)
                             .addChildEventListener(new ChildEventListener() {
                                 @Override
                                 public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+                                    waitPbar.setVisibility(View.GONE);
                                     Log.i("On Child Added", "not called?");
                                     MessageModel messageModel = snapshot.getValue(MessageModel.class);
                                     dataSet.add(messageModel);

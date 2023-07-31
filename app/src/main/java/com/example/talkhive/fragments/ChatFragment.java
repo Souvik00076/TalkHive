@@ -63,9 +63,36 @@ public class ChatFragment extends Fragment implements FirebaseRecyclerViewCallba
         token = UserToken.getInstance();
         dataSet = new ArrayList<>();
         firebaseUser = token.getAuth().getCurrentUser();
-        String key = firebaseUser.getEmail().replace(".", "");
-        chatReference = token.getDatabaseReference().child("Users/" + firebaseUser.getEmail()
-                .replace(".", "") + "/ChatIds");
+        String userKey = firebaseUser.getEmail().replace(".", "");
+        requestReference = token.getDatabaseReference()
+                .child("Users/" + userKey + "/requests");
+        requestReference.addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+
+            }
+
+            @Override
+            public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+
+            }
+
+            @Override
+            public void onChildRemoved(@NonNull DataSnapshot snapshot) {
+
+            }
+
+            @Override
+            public void onChildMoved(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+        chatReference = token.getDatabaseReference().child("Users/" + userKey + "/ChatIds");
         chatReference.addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
@@ -136,7 +163,6 @@ public class ChatFragment extends Fragment implements FirebaseRecyclerViewCallba
     @Override
     public void onClickListener(ChatModel model) {
         Log.i("Chat Fragment", "Request for new fragment");
-        if (model.getID() == null) Log.i("Chat Id", "null");
         chatActivity.addChatScreen(model);
     }
 
